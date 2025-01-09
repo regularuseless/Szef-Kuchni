@@ -1,0 +1,76 @@
+package com.example.chefapp
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.fragment.app.Fragment
+
+class SearchFragment : Fragment() {
+
+    private lateinit var searchBar: EditText
+    private lateinit var filterVegan: CheckBox
+    private lateinit var filterVegetarian: CheckBox
+    private lateinit var filterGlutenFree: CheckBox
+    private lateinit var filterNutFree: CheckBox
+    private lateinit var filterDairyFree: CheckBox
+    private lateinit var sortOptionsGroup: RadioGroup
+    private lateinit var searchButton: Button
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_search, container, false)
+
+        // Initialize Views
+        searchBar = view.findViewById(R.id.searchBar)
+        filterVegan = view.findViewById(R.id.filterVegan)
+        filterVegetarian = view.findViewById(R.id.filterVegetarian)
+        filterGlutenFree = view.findViewById(R.id.filterGlutenFree)
+        filterNutFree = view.findViewById(R.id.filterNutFree)
+        filterDairyFree = view.findViewById(R.id.filterDairyFree)
+        sortOptionsGroup = view.findViewById(R.id.sortOptionsGroup)
+        searchButton = view.findViewById(R.id.btnSearch)
+
+        setupSearchButton()
+
+        return view
+    }
+
+    private fun setupSearchButton() {
+        searchButton.setOnClickListener {
+            val dishName = searchBar.text.toString()
+
+            // Get selected filters (checkboxes)
+            val selectedFilters = mutableListOf<String>()
+            if (filterVegan.isChecked) selectedFilters.add("Vegan")
+            if (filterVegetarian.isChecked) selectedFilters.add("Vegetarian")
+            if (filterGlutenFree.isChecked) selectedFilters.add("Gluten-Free")
+            if (filterNutFree.isChecked) selectedFilters.add("Nut-Free")
+            if (filterDairyFree.isChecked) selectedFilters.add("Dairy-Free")
+
+            // Get selected sort options (radio buttons)
+            val selectedSortOptions = mutableListOf<String>()
+            for (i in 0 until sortOptionsGroup.childCount) {
+                val radioButton = sortOptionsGroup.getChildAt(i) as RadioButton
+                if (radioButton.isChecked) {
+                    selectedSortOptions.add(radioButton.text.toString())
+                }
+            }
+
+            // Trigger the search action
+            performSearch(dishName, selectedFilters, selectedSortOptions)
+        }
+    }
+
+    private fun performSearch(dishName: String, filters: List<String>, sortOptions: List<String>) {
+        // here we perform the search action
+        Toast.makeText(
+            requireContext(),
+            "Searching for: $dishName\nFilters: ${filters.joinToString()}\nSort by: ${sortOptions.joinToString()}",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+}
