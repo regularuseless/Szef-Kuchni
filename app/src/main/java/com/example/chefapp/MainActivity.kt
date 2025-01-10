@@ -60,5 +60,4 @@ class MainActivity : AppCompatActivity() {
         tabLayout.getTabAt(4)?.setIcon(R.drawable.fridge_icon)
         tabLayout.getTabAt(5)?.setIcon(R.drawable.profile_icon)
     }
-
 }
