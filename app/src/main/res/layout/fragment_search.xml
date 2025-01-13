@@ -7,7 +7,6 @@
     android:padding="16dp"
     android:background="#F5F5F5">
 
-    <!-- Search Bar -->
     <EditText
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
@@ -19,7 +18,6 @@
         android:drawablePadding="8dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Multiple Choice Filter for Allergens/Diets -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,7 +62,6 @@
             android:text="Dairy-Free" />
     </LinearLayout>
 
-    <!-- Sort Options (Multiple Selection Radio Buttons) -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,13 +101,12 @@
             android:text="Calories" />
     </RadioGroup>
 
-    <!-- Search Button -->
     <Button
         android:id="@+id/btnSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Search"
-        android:background="@color/white"
+        android:background="#DAB2D8"
         android:textColor="@android:color/white"
         android:padding="12dp" />
 </LinearLayout>
