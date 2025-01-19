@@ -48,18 +48,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("androidx.fragment:fragment:$fragment_version")
     implementation("com.google.android.material:material:1.12.0")
-    // Dodanie Retrofit
     implementation(libs.retrofit)
-
-    // Dodanie Retrofit Converter Gson
-    implementation(libs.retrofit.converter.gson)
-
-    // Dodanie OkHttp
     implementation(libs.okhttp)
-
-    // Dodanie OkHttp Logging Interceptor
-    implementation(libs.okhttp.logging.interceptor)
-
-    // Dodanie Gson
-    implementation(libs.gson)
+    implementation(libs.gson) // dla konwersji JSON
+    implementation(libs.converter.gson)
 }
