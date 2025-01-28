@@ -5,55 +5,72 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import android.util.Log
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SearchListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private val searchViewModel: SearchViewModel by activityViewModels()
+    private lateinit var recipeAdapter: RecipeAdapter
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_list, container, false)
+        inflater: LayoutInflater, container:ViewGroup?,
+        SavedInstanceState:Bundle?
+    ): View?
+    {
+        val view = inflater.inflate(R.layout.fragment_search_list,container,false)
+        val recyclerView:RecyclerView = view.findViewById(R.id.rv_dishes)
+        searchViewModel.searchParameters.observe(viewLifecycleOwner)
+        {
+            params -> performSearch(params)
+        }
+        recipeAdapter = RecipeAdapter(recipesList)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = recipeAdapter
+        return view
     }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    fun searchRecipesByText(query: String, intolerances: String? = null, sort: String? = null) {
+        RetrofitInstance.api.searchRecipesByText(query, intolerances, sort, apiKey = apiKey).enqueue(object : Callback<RecipeSearchResponse> {
+            override fun onResponse(call: Call<RecipeSearchResponse>, response: Response<RecipeSearchResponse>) {
+                if (response.isSuccessful) {
+                    val recipes = response.body()?.results ?: emptyList()  // Pobierz przepisy
+                    recipesList.clear()
+                    recipesList.addAll(recipes)
+                    recipeAdapter.notifyDataSetChanged()
+                    Log.d("SearchRecipes","cokolwiek: ${recipesList.size}")
+                } else {
+                    Log.e("API", "Błąd odpowiedzi: ${response.message()}")  // Logowanie błędu odpowiedzi
                 }
             }
+            override fun onFailure(call: Call<RecipeSearchResponse>, t: Throwable) {
+                Log.e("API", "Wykonanie zapytania zakończone niepowodzeniem: ${t.message}")
+            }
+        })
     }
+    private fun performSearch(params:SearchParameters)
+    {
+        Toast.makeText(
+            requireContext(),
+            "Searching for: $params.dishName\nFilters: ${params.filters.joinToString()}\nSort by: ${params.sortOptions.joinToString()}",
+            Toast.LENGTH_SHORT
+        ).show()
+            searchRecipesByText("chicken")
+        Log.d("SearchRecipes","cokolwiek: ${recipesList.size}")
+        //await lub coś lepszego
+
+    }
+
+    val apiKey = "c00df3c343d14c7390f49b9adc0c1cfe"
+    var recipesList = mutableListOf<Recipe>()
+
+
 }

@@ -13,10 +13,10 @@ class FridgeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: IngredientAdapter
     private val fridgeIngredients = mutableListOf(
-        Ingredient("Mleko", 2,),
-        Ingredient("Jaja", 12,),
-        Ingredient("Ser", 1,),
-        Ingredient("Marchewka", 5,)
+        Ingredient_test("Mleko", 2,),
+        Ingredient_test("Jaja", 12,),
+        Ingredient_test("Ser", 1,),
+        Ingredient_test("Marchewka", 5,)
     )
 
     override fun onCreateView(

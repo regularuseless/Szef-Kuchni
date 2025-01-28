@@ -13,10 +13,10 @@ class CartFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: IngredientAdapter
     private val ingredients = mutableListOf(
-        Ingredient("Mleko", 1),
-        Ingredient("Papryka", 2),
-        Ingredient("Makaron spaghetti", 0),
-        Ingredient("Kakao", 1)
+        Ingredient_test("Mleko", 1),
+        Ingredient_test("Papryka", 2),
+        Ingredient_test("Makaron spaghetti", 0),
+        Ingredient_test("Kakao", 1)
     )
 
     override fun onCreateView(

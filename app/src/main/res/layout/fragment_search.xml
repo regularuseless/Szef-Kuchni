@@ -31,17 +31,6 @@
         android:orientation="vertical"
         android:layout_marginBottom="16dp">
 
-        <CheckBox
-            android:id="@+id/filterVegan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vegan" />
-
-        <CheckBox
-            android:id="@+id/filterVegetarian"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vegetarian" />
 
         <CheckBox
             android:id="@+id/filterGlutenFree"
@@ -80,7 +69,7 @@
             android:id="@+id/sortAlphabetical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alphabetical" />
+            android:text="Popularity" />
 
         <RadioButton
             android:id="@+id/sortPrice"
@@ -92,7 +81,7 @@
             android:id="@+id/sortDifficulty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Difficulty" />
+            android:text="Time" />
 
         <RadioButton
             android:id="@+id/sortCalories"

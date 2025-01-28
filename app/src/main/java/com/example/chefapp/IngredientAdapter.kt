@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class IngredientAdapter(
-    private val ingredients: MutableList<Ingredient>,
-    private val onQuantityChanged: (Ingredient) -> Unit // Callback for when quantity changes
+    private val ingredients: MutableList<Ingredient_test>,
+    private val onQuantityChanged: (Ingredient_test) -> Unit // Callback for when quantity changes
 ) : RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
 
     inner class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

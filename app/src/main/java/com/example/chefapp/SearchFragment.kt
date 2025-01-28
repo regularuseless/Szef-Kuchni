@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 class SearchFragment : Fragment() {
 
     private lateinit var searchBar: EditText
@@ -18,6 +20,8 @@ class SearchFragment : Fragment() {
     private lateinit var sortOptionsGroup: RadioGroup
     private lateinit var searchButton: Button
 
+    private val searchViewModel: SearchViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,8 +30,8 @@ class SearchFragment : Fragment() {
 
         // Initialize Views
         searchBar = view.findViewById(R.id.searchBar)
-        filterVegan = view.findViewById(R.id.filterVegan)
-        filterVegetarian = view.findViewById(R.id.filterVegetarian)
+        //filterVegan = view.findViewById(R.id.filterVegan)
+        //filterVegetarian = view.findViewById(R.id.filterVegetarian)
         filterGlutenFree = view.findViewById(R.id.filterGlutenFree)
         filterNutFree = view.findViewById(R.id.filterNutFree)
         filterDairyFree = view.findViewById(R.id.filterDairyFree)
@@ -45,8 +49,8 @@ class SearchFragment : Fragment() {
 
             // Get selected filters (checkboxes)
             val selectedFilters = mutableListOf<String>()
-            if (filterVegan.isChecked) selectedFilters.add("Vegan")
-            if (filterVegetarian.isChecked) selectedFilters.add("Vegetarian")
+            //if (filterVegan.isChecked) selectedFilters.add("Vegan")
+            //if (filterVegetarian.isChecked) selectedFilters.add("Vegetarian")
             if (filterGlutenFree.isChecked) selectedFilters.add("Gluten-Free")
             if (filterNutFree.isChecked) selectedFilters.add("Nut-Free")
             if (filterDairyFree.isChecked) selectedFilters.add("Dairy-Free")
@@ -61,11 +65,19 @@ class SearchFragment : Fragment() {
             }
 
             // Trigger the search action
-            performSearch(dishName, selectedFilters, selectedSortOptions)
+            //performTestSearch(dishName, selectedFilters, selectedSortOptions)
+            val searchParams = SearchParameters(dishName, selectedFilters, selectedSortOptions)
+            searchViewModel.setSearchParameters(searchParams)
+
+            // Navigate to SearchListFragment
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, SearchListFragment())
+                .addToBackStack(null)
+                .commit()
         }
     }
 
-    private fun performSearch(dishName: String, filters: List<String>, sortOptions: List<String>) {
+    private fun performTestSearch(dishName: String, filters: List<String>, sortOptions: List<String>) {
         // here we perform the search action
         Toast.makeText(
             requireContext(),

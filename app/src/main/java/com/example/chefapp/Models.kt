@@ -1,19 +1,14 @@
 package com.example.chefapp
+data class RecipeSearchResponse(
+    val results: List<Recipe>,
+    val offset: Int,
+    val number: Int,
+    val totalResults: Int
+)
 data class Recipe(
     val id: Int,
     val title: String,
     val image: String,
-    val usedIngredientCount: Int?,
-    val missedIngredientCount: Int?,
-    val missedIngredients: List<Ingredient>?,
-    val usedIngredients: List<Ingredient>?,
-    val unusedIngredients: List<Ingredient>?,
-    val likes: Int?
-)
-
-data class RecipeSearchResponse(
-    val results: List<Recipe>,
-    val totalResults: Int
 )
 
 data class RecipeDetails(
