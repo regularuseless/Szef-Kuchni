@@ -22,6 +22,8 @@ import kotlinx.coroutines.withContext
 
 class SearchListFragment : Fragment() {
     private val searchViewModel: SearchViewModel by activityViewModels()
+    private val detailedRecipeViewModel: DetailedRecipeViewModel by activityViewModels()
+
     private lateinit var recipeAdapter: RecipeAdapter
 
     override fun onCreateView(
@@ -45,7 +47,8 @@ class SearchListFragment : Fragment() {
     }
 
     private fun openDishFragment(recipe: Recipe) {
-        val fragment = DishFragment.newInstance(recipe.id.toString(), recipe.title, recipe.image)
+        detailedRecipeViewModel.selectRecipe(recipe)
+        val fragment = DishFragment()
 
         parentFragmentManager.beginTransaction()
             .replace(R.id.frame_layout, fragment)
@@ -60,6 +63,7 @@ class SearchListFragment : Fragment() {
                     val recipes = response.body()?.results ?: emptyList()  // Pobierz przepisy
                     recipesList.clear()
                     recipesList.addAll(recipes)
+                    Log.d("Tlumacz","${recipesList[0].extendedIngredients[0].name}")
                     /*runBlocking {
                         for (index in recipesList.indices) {
                             recipesList[index].title =
@@ -81,6 +85,7 @@ class SearchListFragment : Fragment() {
     private fun performSearch(params:SearchParameters)
     {
         var name=params.dishName
+
         /*runBlocking {
             val translatedText = translate(name, "pl", "en")
             name=translatedText
@@ -98,8 +103,6 @@ class SearchListFragment : Fragment() {
 
     }
 
-    val apiKey = "f73a588638a84caa8f80146a4d764e0b"
+    val apiKey = "2b5b4325771b48fea47ed94b29adb286"
     var recipesList = mutableListOf<Recipe>()
-
-
 }

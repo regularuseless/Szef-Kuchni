@@ -14,6 +14,7 @@ data class Recipe(
     val nutrition: Nutrition,  // Dodane pole dla wartości odżywczych
     val sourceName: String,
     val summary: String,
+    val diets: List<String>,
     val extendedIngredients: List<Ingredient> // Dodane pole dla składników
 )
 

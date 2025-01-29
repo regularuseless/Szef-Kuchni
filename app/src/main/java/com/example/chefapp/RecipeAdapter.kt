@@ -35,7 +35,7 @@ class RecipeAdapter(private val recipes: List<Recipe>, private val onRecipeClick
         // For the difficulty, you could determine it based on your own criteria.
         holder.dishDifficulty.text = "Czas gotowania(minuty): ${recipe.readyInMinutes ?: "N/A"}"
         holder.dishCost.text = "Koszt na porcję(centy): ${recipe.pricePerServing ?: "N/A"}"
-
+        Log.d("IngredientAdapter","Recipe ingredients: ${recipe.extendedIngredients}")
         // Obsługa kliknięcia na element
         holder.itemView.setOnClickListener {
             onRecipeClick(recipe) //wywołanie lambdy z kliknietym przepisem
