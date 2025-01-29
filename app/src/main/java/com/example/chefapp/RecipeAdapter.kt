@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
-class RecipeAdapter(private val recipes: List<Recipe>) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+class RecipeAdapter(private val recipes: List<Recipe>, private val onRecipeClick: (Recipe) -> Unit /* Lambda do obsługi kliknięć) */) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     // ViewHolder class to hold the view elements
     class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -35,10 +36,17 @@ class RecipeAdapter(private val recipes: List<Recipe>) : RecyclerView.Adapter<Re
         //holder.dishDifficulty.text = "Difficulty: ${recipe.usedIngredientCount ?: "N/A"}"
         //holder.dishCost.text = "Cost: ${recipe.missedIngredientCount ?: "N/A"}"
 
-        // You can use Glide or Picasso to load the image
-        //Glide.with(holder.dishImage.context)
-            //.load(recipe.image)
-            //.into(holder.dishImage)
+        // Obsługa kliknięcia na element
+        holder.itemView.setOnClickListener {
+            onRecipeClick(recipe) //wywołanie lambdy z kliknietym przepisem
+        }
+
+        // Załaduj obraz za pomocą Glide
+        Glide.with(holder.dishImage.context)
+            .load(recipe.image) // URL obrazu z modelu
+            .placeholder(R.drawable.placeholder_image) // Obraz zastępczy
+            //.error(R.drawable.error_image) // Obraz błędu
+            .into(holder.dishImage)
     }
 
     // Return the total item count

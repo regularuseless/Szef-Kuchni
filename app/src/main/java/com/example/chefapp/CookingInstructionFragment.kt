@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +34,12 @@ class CookingInstructionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cooking_instruction, container, false)
+        val view = inflater.inflate(R.layout.fragment_cooking_instruction, container, false)
+
+        val instructionTextView: TextView = view.findViewById(R.id.tv_instruction)
+        instructionTextView.text = "Start cooking: $param2" // Wyświetlenie tytułu przepisu
+
+        return view
     }
 
     companion object {
