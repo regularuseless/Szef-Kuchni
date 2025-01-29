@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.google.gson.Gson
+import java.io.File
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +37,64 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        // Odczytaj zapisane alergeny
+        val selectedAllergens = loadSelectedAllergens()
+
+        // Znajdź LinearLayout, w którym będą wyświetlane alergeny
+        val llAllergensList = view.findViewById<LinearLayout>(R.id.ll_allergens_list)
+
+        // Wyczyść istniejące widoki (na wypadek, gdyby były już jakieś elementy)
+        llAllergensList.removeAllViews()
+
+        // Dodaj każdy alergen do LinearLayout
+        for (allergen in selectedAllergens) {
+            val textView = TextView(requireContext()).apply {
+                text = allergen
+                textSize = 16f
+                setPadding(0, 8, 0, 8) // Dodaj odstępy między elementami
+            }
+            llAllergensList.addView(textView)
+        }
+
+
+        // Odczytaj zapisane preferencje dietetyczne
+        val selectedDiets = loadSelectedDiets()
+        val llDietsList = view.findViewById<LinearLayout>(R.id.ll_diets_list)
+        llDietsList.removeAllViews()
+        for (diet in selectedDiets) {
+            val textView = TextView(requireContext()).apply {
+                text = diet
+                textSize = 16f
+                setPadding(0, 8, 0, 8)
+            }
+            llDietsList.addView(textView)
+        }
+
+        return view
+    }
+
+    private fun loadSelectedAllergens(): Set<String> {
+        val file = File(requireContext().filesDir, "allergens.json")
+        return if (file.exists()) {
+            val json = file.readText()
+            val gson = Gson()
+            gson.fromJson(json, Set::class.java) as Set<String>
+        } else {
+            emptySet()
+        }
+    }
+
+    private fun loadSelectedDiets(): Set<String> {
+        val file = File(requireContext().filesDir, "diets.json")
+        return if (file.exists()) {
+            val json = file.readText()
+            val gson = Gson()
+            gson.fromJson(json, Set::class.java) as Set<String>
+        } else {
+            emptySet()
+        }
     }
 
     companion object {

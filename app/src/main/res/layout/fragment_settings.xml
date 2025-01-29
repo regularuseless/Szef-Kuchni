@@ -46,7 +46,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_diet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="254dp"
         android:layout_marginBottom="24dp"
         android:scrollbars="vertical" />
 
@@ -55,9 +55,9 @@
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"
         android:background="@color/white"
-        android:textColor="@android:color/white"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:text="Save"
+        android:textColor="#757575" />
 
 </LinearLayout>

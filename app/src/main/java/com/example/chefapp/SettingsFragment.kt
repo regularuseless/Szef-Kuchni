@@ -5,55 +5,119 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import java.io.File
+import java.io.FileOutputStream
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SettingsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var allergenAdapter: AllergenAdapter
+    private lateinit var dietAdapter: DietAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+
+        // Inicjalizacja RecyclerView dla alergenów
+        val rvAllergens = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rv_allergens)
+        rvAllergens.layoutManager = LinearLayoutManager(requireContext())
+
+        // Lista alergenów
+        val allergens = listOf("Gluten", "Nuts", "Dairy")
+
+        // Inicjalizacja adaptera
+        allergenAdapter = AllergenAdapter(allergens)
+        rvAllergens.adapter = allergenAdapter
+
+        // Przywróć zapisane alergeny
+        val savedAllergens = loadSelectedAllergens()
+        allergenAdapter.setSelectedAllergens(savedAllergens)
+
+
+        ///////
+
+
+        // Inicjalizacja RecyclerView dla preferencji dietetycznych
+        val rvDiets = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rv_diet)
+        rvDiets.layoutManager = LinearLayoutManager(requireContext())
+
+        // Lista preferencji dietetycznych
+        val diets = listOf("Vegetarian", "Gluten Free", "Ketogenic", "Lacto-Vegetarian", "Ovo-Vegetarian", "Vegan", "Pescetarian", "Paleo", "Primal")
+
+        // Inicjalizacja adaptera
+        dietAdapter = DietAdapter(diets)
+        rvDiets.adapter = dietAdapter
+
+
+        //Przywróć zapisane diety
+        val savedDiets = loadSelectedDiets()
+        dietAdapter.setSelectedDiets(savedDiets)
+
+
+
+
+        // Przycisk zapisu
+        val btnSave = view.findViewById<android.widget.Button>(R.id.btnSave)
+        btnSave.setOnClickListener {
+            saveSelectedAllergens()
+            saveSelectedDiets()
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun saveSelectedAllergens() {
+        // Pobierz wybrane alergeny z adaptera
+        val selectedAllergens = allergenAdapter.getSelectedAllergens()
+
+        // Konwersja do JSON
+        val gson = Gson()
+        val json = gson.toJson(selectedAllergens)
+
+        // Zapis do pliku
+        val file = File(requireContext().filesDir, "allergens.json")
+        FileOutputStream(file).use {
+            it.write(json.toByteArray())
+        }
+        // Możesz dodać powiadomienie dla użytkownika, że dane zostały zapisane
+        android.widget.Toast.makeText(requireContext(), "Allergens saved!", android.widget.Toast.LENGTH_SHORT).show()
+    }
+
+    private fun loadSelectedAllergens(): Set<String> {
+        val file = File(requireContext().filesDir, "allergens.json")
+        return if (file.exists()) {
+            val json = file.readText()
+            val gson = Gson()
+            gson.fromJson(json, Set::class.java) as Set<String>
+        } else {
+            emptySet()
+        }
+    }
+
+    private fun saveSelectedDiets() {
+        val selectedDiets = dietAdapter.getSelectedDiets()
+        val gson = Gson()
+        val json = gson.toJson(selectedDiets)
+        val file = File(requireContext().filesDir, "diets.json")
+        FileOutputStream(file).use {
+            it.write(json.toByteArray())
+        }
+
+    }
+
+
+    private fun loadSelectedDiets(): Set<String> {
+        val file = File(requireContext().filesDir, "diets.json")
+        return if (file.exists()) {
+            val json = file.readText()
+            val gson = Gson()
+            gson.fromJson(json, Set::class.java) as Set<String>
+        } else {
+            emptySet()
+        }
     }
 }
