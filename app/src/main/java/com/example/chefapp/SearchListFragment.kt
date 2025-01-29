@@ -60,13 +60,13 @@ class SearchListFragment : Fragment() {
                     val recipes = response.body()?.results ?: emptyList()  // Pobierz przepisy
                     recipesList.clear()
                     recipesList.addAll(recipes)
-                    runBlocking {
+                    /*runBlocking {
                         for (index in recipesList.indices) {
                             recipesList[index].title =
                                 translate(recipesList[index].title, "en", "pl")
                             Log.d("Tlumaczenie", recipesList[index].title)
                         }
-                    }
+                    }*/
                     recipeAdapter.notifyDataSetChanged()
                     Log.d("SearchRecipes","cokolwiek: ${recipesList.size}")
                 } else {
