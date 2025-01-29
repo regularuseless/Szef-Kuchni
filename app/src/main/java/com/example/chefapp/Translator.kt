@@ -1,45 +1,40 @@
 package com.example.chefapp
-import okhttp3.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
+import java.net.URLEncoder
 import org.json.JSONObject
-import java.io.IOException
+import java.io.OutputStreamWriter
 
-fun translateText(inputText: String, direction: Int): String? {
-    val client = OkHttpClient()
-
-    // Ustawianie języków źródłowego i docelowego
-    val (sourceLang, targetLang) = when (direction) {
-        1 -> "en" to "pl" // Z angielskiego na polski
-        2 -> "pl" to "en" // Z polskiego na angielski
-        else -> throw IllegalArgumentException("Direction must be 1 or 2")
-    }
-
-    // Tworzenie treści zapytania POST
-    val requestBody = FormBody.Builder()
-        .add("q", inputText)
-        .add("source", sourceLang)
-        .add("target", targetLang)
-        .build()
-
-    // Tworzenie żądania HTTP
-    val request = Request.Builder()
-        .url("http://localhost:5000/translate") // Adres API LibreTranslate
-        .post(requestBody)
-        .build()
-
-    // Wykonywanie zapytania i obsługa odpowiedzi
-    return try {
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) {
-                throw IOException("Unexpected code $response")
-            }
-            // Odczytywanie odpowiedzi JSON
-            val responseBody = response.body?.string()
-            // Pobieranie przetłumaczonego tekstu (parsowanie JSON-a)
-            val json = JSONObject(responseBody)
-            json.getString("translatedText")
+suspend fun translate(text: String, source: String, target: String): String {
+    return withContext(Dispatchers.IO) {
+        val url = URL("http://192.168.0.137:5000/translate")
+        val jsonRequest = JSONObject().apply {
+            put("q", text)
+            put("source", source)
+            put("target", target)
+            put("format", "text") // Niektóre API tego wymagają
         }
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
+
+        with(url.openConnection() as HttpURLConnection) {
+            requestMethod = "POST"
+            doOutput = true
+            setRequestProperty("Content-Type", "application/json") // Ustaw JSON zamiast form-urlencoded
+            setRequestProperty("Accept", "application/json") // Wymuś odpowiedź w JSON
+
+            OutputStreamWriter(outputStream, "UTF-8").use { it.write(jsonRequest.toString()) }
+
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                throw Exception("HTTP ${responseCode}: ${errorStream.bufferedReader().readText()}")
+            }
+
+            // Odczytanie odpowiedzi JSON
+            val response = inputStream.bufferedReader().use { it.readText() }
+            val jsonResponse = JSONObject(response)
+
+            // Zwrócenie tylko przetłumaczonego tekstu
+            return@withContext jsonResponse.getString("translatedText")
+        }
     }
 }

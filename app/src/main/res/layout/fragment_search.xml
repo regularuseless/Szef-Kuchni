@@ -36,19 +36,19 @@
             android:id="@+id/filterGlutenFree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gluten-Free" />
+            android:text="Gluten" />
 
         <CheckBox
             android:id="@+id/filterNutFree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nut-Free" />
+            android:text="Nut" />
 
         <CheckBox
             android:id="@+id/filterDairyFree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dairy-Free" />
+            android:text="Dairy" />
     </LinearLayout>
 
     <TextView

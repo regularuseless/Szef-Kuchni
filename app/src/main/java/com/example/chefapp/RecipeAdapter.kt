@@ -33,8 +33,8 @@ class RecipeAdapter(private val recipes: List<Recipe>, private val onRecipeClick
         // Set the data to the views
         holder.dishName.text = recipe.title
         // For the difficulty, you could determine it based on your own criteria.
-        //holder.dishDifficulty.text = "Difficulty: ${recipe.usedIngredientCount ?: "N/A"}"
-        //holder.dishCost.text = "Cost: ${recipe.missedIngredientCount ?: "N/A"}"
+        holder.dishDifficulty.text = "Czas gotowania: ${recipe.readyInMinutes ?: "N/A"}"
+        holder.dishCost.text = "Koszt na porcję(centy): ${recipe.pricePerServing ?: "N/A"}"
 
         // Obsługa kliknięcia na element
         holder.itemView.setOnClickListener {

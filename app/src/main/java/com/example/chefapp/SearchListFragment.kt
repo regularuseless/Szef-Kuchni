@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class SearchListFragment : Fragment() {
@@ -59,6 +60,13 @@ class SearchListFragment : Fragment() {
                     val recipes = response.body()?.results ?: emptyList()  // Pobierz przepisy
                     recipesList.clear()
                     recipesList.addAll(recipes)
+                    runBlocking {
+                        for (index in recipesList.indices) {
+                            recipesList[index].title =
+                                translate(recipesList[index].title, "en", "pl")
+                            Log.d("Tlumaczenie", recipesList[index].title)
+                        }
+                    }
                     recipeAdapter.notifyDataSetChanged()
                     Log.d("SearchRecipes","cokolwiek: ${recipesList.size}")
                 } else {
@@ -72,12 +80,18 @@ class SearchListFragment : Fragment() {
     }
     private fun performSearch(params:SearchParameters)
     {
+        var name=params.dishName
+        runBlocking {
+            val translatedText = translate(name, "pl", "en")
+            name=translatedText
+            Log.d("Tlumaczenie",name)
+        }
         Toast.makeText(
             requireContext(),
-            "Searching for: $params.dishName\nFilters: ${params.filters.joinToString()}\nSort by: ${params.sortOptions.joinToString()}",
+            "Searching for: $name\nFilters: ${params.filters.joinToString()}\nSort by: ${params.sortOptions.joinToString()}",
             Toast.LENGTH_SHORT
         ).show()
-        searchRecipesByText(params.dishName, params.filters.joinToString(",").lowercase())
+        searchRecipesByText(name, params.filters.joinToString(",").lowercase())
         Log.d("SearchRecipes","cokolwiek: ${recipesList.size}")
         //await lub coś lepszego
         searchRecipesByText(params.dishName, params.filters.joinToString(",").lowercase())
