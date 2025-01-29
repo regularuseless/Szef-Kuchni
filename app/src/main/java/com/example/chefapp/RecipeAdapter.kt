@@ -9,48 +9,54 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class RecipeAdapter(private val recipes: List<Recipe>, private val onRecipeClick: (Recipe) -> Unit /* Lambda do obsługi kliknięć) */) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+class RecipeAdapter(
+    private var recipes: List<Recipe>,
+    private val onRecipeClick: (Recipe) -> Unit
+) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
-    // ViewHolder class to hold the view elements
-    class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val dishImage: ImageView = view.findViewById(R.id.iv_dish_image)
-        val dishName: TextView = view.findViewById(R.id.tv_dish_name)
-        val dishDifficulty: TextView = view.findViewById(R.id.tv_dish_difficulty)
-        val dishCost: TextView = view.findViewById(R.id.tv_dish_cost)
+    inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val dishImage: ImageView = itemView.findViewById(R.id.iv_dish_image)
+        val dishName: TextView = itemView.findViewById(R.id.tv_dish_name)
+        val dishDifficulty: TextView = itemView.findViewById(R.id.tv_dish_difficulty)
+        val dishCost: TextView = itemView.findViewById(R.id.tv_dish_cost)
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onRecipeClick(recipes[position])
+                }
+            }
+        }
     }
 
-    // Create a new ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_dish, parent, false)
-        Log.d("ShowRecipes","start")
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_dish, parent, false)
+        Log.d("RecipeAdapter", "Tworzenie nowego ViewHolder")
         return RecipeViewHolder(view)
     }
 
-    // Bind the data to the view
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val recipe = recipes[position]
-        Log.d("ShowRecipes","cokolwiek: ${recipe.title}")
-        // Set the data to the views
-        holder.dishName.text = recipe.title
-        // For the difficulty, you could determine it based on your own criteria.
-        holder.dishDifficulty.text = "Czas gotowania(minuty): ${recipe.readyInMinutes ?: "N/A"}"
-        holder.dishCost.text = "Koszt na porcję(centy): ${recipe.pricePerServing ?: "N/A"}"
-        Log.d("IngredientAdapter","Recipe ingredients: ${recipe.extendedIngredients}")
-        // Obsługa kliknięcia na element
-        holder.itemView.setOnClickListener {
-            onRecipeClick(recipe) //wywołanie lambdy z kliknietym przepisem
-        }
 
-        // Załaduj obraz za pomocą Glide
+        holder.dishName.text = recipe.title
+        holder.dishDifficulty.text = "Czas gotowania: ${recipe.readyInMinutes} min"
+        holder.dishCost.text = "Koszt: ${String.format("%.2f", recipe.pricePerServing)} ¢"
+
         Glide.with(holder.dishImage.context)
-            .load(recipe.image) // URL obrazu z modelu
-            .placeholder(R.drawable.placeholder_image) // Obraz zastępczy
-            //.error(R.drawable.error_image) // Obraz błędu
+            .load(recipe.image)
+            .placeholder(R.drawable.placeholder_image)
             .into(holder.dishImage)
+
+        Log.d("RecipeAdapter", "Wyświetlanie przepisu: ${recipe.title}")
     }
 
-    // Return the total item count
-    override fun getItemCount(): Int {
-        return recipes.size
+    override fun getItemCount() = recipes.size
+
+    fun updateRecipes(newRecipes: List<Recipe>) {
+        recipes = newRecipes
+        notifyDataSetChanged()
+        Log.d("RecipeAdapter", "Zaktualizowano listę przepisów, nowa liczba: ${recipes.size}")
     }
 }
