@@ -10,8 +10,24 @@ data class Recipe(
     var title: String,
     val image: String,
     var readyInMinutes: Int,
-    val pricePerServing: Double
+    val pricePerServing: Double,
+    val nutrition: Nutrition,  // Dodane pole dla wartości odżywczych
+    val sourceName: String,
+    val summary: String,
+    val extendedIngredients: List<Ingredient> // Dodane pole dla składników
 )
+
+data class Nutrition(
+    val nutrients: List<Nutrients>  // Tylko kalorie
+)
+
+data class Nutrients(
+    val name: String,
+    val amount: Double,
+    val unit: String,
+    val percentOfDailyNeeds:Double
+)
+
 
 data class RecipeDetails(
     val id: Int,
@@ -38,9 +54,7 @@ data class Ingredient(
     val unit: String
 )
 
-data class Nutrition(
-    val nutrients: List<Nutrient>
-)
+
 
 data class Nutrient(
     val name: String,

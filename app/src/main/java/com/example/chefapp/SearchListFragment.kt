@@ -64,7 +64,7 @@ class SearchListFragment : Fragment() {
                         for (index in recipesList.indices) {
                             recipesList[index].title =
                                 translate(recipesList[index].title, "en", "pl")
-                            Log.d("Tlumaczenie", recipesList[index].title)
+                            Log.d("Tlumaczenie", recipesList[index].extendedIngredients[0].name)
                         }
                     }*/
                     recipeAdapter.notifyDataSetChanged()
@@ -81,11 +81,11 @@ class SearchListFragment : Fragment() {
     private fun performSearch(params:SearchParameters)
     {
         var name=params.dishName
-        runBlocking {
+        /*runBlocking {
             val translatedText = translate(name, "pl", "en")
             name=translatedText
             Log.d("Tlumaczenie",name)
-        }
+        }*/
         Toast.makeText(
             requireContext(),
             "Searching for: $name\nFilters: ${params.filters.joinToString()}\nSort by: ${params.sortOptions.joinToString()}",
@@ -98,7 +98,7 @@ class SearchListFragment : Fragment() {
 
     }
 
-    val apiKey = "bb03710b9c6f4b4e92bb7f7492777879"
+    val apiKey = "f73a588638a84caa8f80146a4d764e0b"
     var recipesList = mutableListOf<Recipe>()
 
 

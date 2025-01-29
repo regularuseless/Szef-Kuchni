@@ -24,6 +24,8 @@ interface SpoonacularApi {
         @Query("sort") sort: String? = null, // Parametr sortowania (np. "popularity" lub "rating")
         @Query("number") number: Int? = 100, // Liczba wyników do zwrócenia
         @Query("addRecipeInformation") addRecipeInformation:Boolean=true,
+        @Query("fillIngredients") fillingredients: Boolean =true,
+        @Query("addRecipeNutrition") addRecipeNutrition: Boolean = true,
         @Query("apiKey") apiKey: String // Klucz API do autentykacji
     ): Call<RecipeSearchResponse>
 
