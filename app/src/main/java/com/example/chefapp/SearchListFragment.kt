@@ -103,6 +103,6 @@ class SearchListFragment : Fragment() {
 
     }
 
-    val apiKey = "2b5b4325771b48fea47ed94b29adb286"
+    val apiKey = "d8414b8d4175455e962a8b165b1c7d00"
     var recipesList = mutableListOf<Recipe>()
 }

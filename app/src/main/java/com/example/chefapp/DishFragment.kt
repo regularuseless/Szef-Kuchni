@@ -91,16 +91,22 @@ class DishFragment : Fragment() {
     }
 
     private fun openCookingInstructionFragment() {
-        val fragment = CookingInstructionFragment()
+        val recipeId = recipe?.id ?: run {
+            Toast.makeText(context, "Błąd: brak ID przepisu", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val fragment = CookingInstructionFragment.newInstance(recipeId)
         parentFragmentManager.beginTransaction()
             .replace(R.id.frame_layout, fragment)
             .addToBackStack(null)
             .commit()
     }
+}
     fun removeHtmlTags(input: String): String {
         return Html.fromHtml(input, Html.FROM_HTML_MODE_LEGACY).toString()
     }
-}
+
 class ExtendedIngredientAdapter(
     context: Context,
     private var ingredients: List<Ingredient>
