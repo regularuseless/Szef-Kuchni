@@ -104,7 +104,12 @@ class DishFragment : Fragment() {
 
 
     private fun openCookingInstructionFragment() {
-        val fragment = CookingInstructionFragment()
+        val recipeId = recipe?.id ?: run {
+            Toast.makeText(context, "Błąd: brak ID przepisu", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val fragment = CookingInstructionFragment.newInstance(recipeId)
         parentFragmentManager.beginTransaction()
             .replace(R.id.frame_layout, fragment)
             .addToBackStack(null)
