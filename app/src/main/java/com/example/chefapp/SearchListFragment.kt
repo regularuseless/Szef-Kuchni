@@ -103,10 +103,6 @@ class SearchListFragment : Fragment() {
 
     }
 
-<<<<<<< Updated upstream
-    val apiKey = "d8414b8d4175455e962a8b165b1c7d00"
-=======
     val apiKey = "0340054380204dd694754d12ae59e2a9"
->>>>>>> Stashed changes
     var recipesList = mutableListOf<Recipe>()
 }
