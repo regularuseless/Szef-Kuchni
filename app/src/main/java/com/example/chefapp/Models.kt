@@ -51,7 +51,7 @@ data class RecipeDetails(
 data class Ingredient(
     val id: Int,
     val name: String,
-    val amount: Double,
+    var amount: Double,
     val unit: String
 )
 

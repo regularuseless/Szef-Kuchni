@@ -1,15 +1,17 @@
 package com.example.chefapp
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 
 class IngredientAdapter(
-    private val ingredients: MutableList<Ingredient_test>,
-    private val onQuantityChanged: (Ingredient_test) -> Unit // Callback for when quantity changes
+    private val ingredients: MutableList<Ingredient>,
+    private val onQuantityChanged: (Ingredient) -> Unit // Callback for when quantity changes
 ) : RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
 
     inner class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -17,6 +19,7 @@ class IngredientAdapter(
         val quantityTextView: TextView = itemView.findViewById(R.id.tvQuantity)
         val minusButton: ImageButton = itemView.findViewById(R.id.btnMinus)
         val plusButton: ImageButton = itemView.findViewById(R.id.btnPlus)
+        val unitTextView: TextView = itemView.findViewById(R.id.tvUnit)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
@@ -25,23 +28,24 @@ class IngredientAdapter(
     }
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
-        val ingredient = ingredients[position]
+        var ingredient = ingredients[position]
 
         // Bind data to views
         holder.nameTextView.text = ingredient.name
-        holder.quantityTextView.text = ingredient.quantity.toString()
+        holder.quantityTextView.text = ingredient.amount.toString()
+        holder.unitTextView.text = ingredient.unit
 
         // Set up button click listeners
         holder.minusButton.setOnClickListener {
-            if (ingredient.quantity > 0) {
-                ingredient.quantity--
+            if (ingredient.amount > 0) {
+                ingredient.amount--
                 notifyItemChanged(position) // Update the UI for this item
                 onQuantityChanged(ingredient) // Trigger callback
             }
         }
 
         holder.plusButton.setOnClickListener {
-            ingredient.quantity++
+            ingredient.amount++
             notifyItemChanged(position) // Update the UI for this item
             onQuantityChanged(ingredient) // Trigger callback
         }

@@ -5,19 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class CartFragment : Fragment() {
+    private val cartViewModel: CartViewModel by activityViewModels()
+    private val cartIngredients = mutableListOf<Ingredient>()
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: IngredientAdapter
-    private val ingredients = mutableListOf(
-        Ingredient_test("Mleko", 1),
-        Ingredient_test("Papryka", 2),
-        Ingredient_test("Makaron spaghetti", 0),
-        Ingredient_test("Kakao", 1)
-    )
+    private val ingredients = mutableListOf<Ingredient>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +24,14 @@ class CartFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_cart, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
-
+        cartViewModel.ingredients.observe(viewLifecycleOwner) { newIngredients ->
+            if(newIngredients!=null)
+            {
+                ingredients.clear()
+                ingredients.addAll(newIngredients)
+                adapter.notifyDataSetChanged()
+            }
+        }
         setupRecyclerView()
 
         return view

@@ -18,6 +18,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,7 @@ import org.w3c.dom.Text
 
 class DishFragment : Fragment() {
     private val detailedRecipeViewModel: DetailedRecipeViewModel by activityViewModels()
+    private val cartViewModel: CartViewModel by activityViewModels()
     private var recipe: Recipe? = null
 
     override fun onCreateView(
@@ -47,6 +49,8 @@ class DishFragment : Fragment() {
         val dishCaloriesTextView: TextView = view.findViewById(R.id.tv_dish_calories)
         val dishDescriptionTextView: TextView = view.findViewById(R.id.tv_dish_description)
         val dishDietTextView: TextView = view.findViewById(R.id.tv_diet_type)
+
+        val btnAddAllIngredients: Button = view.findViewById(R.id.btn_add_to_cart)
 
         //val dishAllergensListView: ListView
         val ingredientsListView: ListView = view.findViewById(R.id.lv_ingredients)
@@ -79,16 +83,25 @@ class DishFragment : Fragment() {
                     .placeholder(R.drawable.placeholder_image)
                     .into(dishImageView)
             }
+            btnAddAllIngredients.setOnClickListener{
+                addAllIngredients(ingredients)
+            }
         }
 
 
         // Handle button click
-        startCookingButton.setOnClickListener {
+        startCookingButton.setOnClickListener{
             openCookingInstructionFragment()
         }
 
+
         return view
     }
+    private fun addAllIngredients(ingredients: List<Ingredient>)
+    {
+        cartViewModel.addIngredients(ingredients)
+    }
+
 
     private fun openCookingInstructionFragment() {
         val recipeId = recipe?.id ?: run {

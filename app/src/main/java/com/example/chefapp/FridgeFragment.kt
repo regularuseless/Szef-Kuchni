@@ -13,10 +13,10 @@ class FridgeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: IngredientAdapter
     private val fridgeIngredients = mutableListOf(
-        Ingredient_test("Mleko", 2,),
-        Ingredient_test("Jaja", 12,),
-        Ingredient_test("Ser", 1,),
-        Ingredient_test("Marchewka", 5,)
+        Ingredient(0,"Mleko", 1.0, "liters"),
+        Ingredient(0,"Papryka", 2.0, "pieces"),
+        Ingredient(0,"Makaron spaghetti", 50.0, "grams"),
+        Ingredient(0,"Kakao", 1.0,"pack")
     )
 
     override fun onCreateView(
@@ -35,7 +35,7 @@ class FridgeFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = IngredientAdapter(fridgeIngredients) { updatedIngredient ->
             // Handle quantity changes or other updates if needed
-            println("Updated ingredient: ${updatedIngredient.name}, Quantity: ${updatedIngredient.quantity}")
+            println("Updated ingredient: ${updatedIngredient.name}, Quantity: ${updatedIngredient.amount}")
         }
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
