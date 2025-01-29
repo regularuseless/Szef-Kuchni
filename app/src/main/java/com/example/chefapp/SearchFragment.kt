@@ -51,9 +51,9 @@ class SearchFragment : Fragment() {
             val selectedFilters = mutableListOf<String>()
             //if (filterVegan.isChecked) selectedFilters.add("Vegan")
             //if (filterVegetarian.isChecked) selectedFilters.add("Vegetarian")
-            if (filterGlutenFree.isChecked) selectedFilters.add("Gluten-Free")
-            if (filterNutFree.isChecked) selectedFilters.add("Nut-Free")
-            if (filterDairyFree.isChecked) selectedFilters.add("Dairy-Free")
+            if (filterGlutenFree.isChecked) selectedFilters.add("Gluten")
+            if (filterNutFree.isChecked) selectedFilters.add("Nut")
+            if (filterDairyFree.isChecked) selectedFilters.add("Dairy")
 
             // Get selected sort options (radio buttons)
             val selectedSortOptions = mutableListOf<String>()

@@ -63,7 +63,7 @@ class SearchListFragment : Fragment() {
             "Searching for: $params.dishName\nFilters: ${params.filters.joinToString()}\nSort by: ${params.sortOptions.joinToString()}",
             Toast.LENGTH_SHORT
         ).show()
-            searchRecipesByText("chicken")
+        searchRecipesByText(params.dishName, params.filters.joinToString(",").lowercase())
         Log.d("SearchRecipes","cokolwiek: ${recipesList.size}")
         //await lub coś lepszego
 
