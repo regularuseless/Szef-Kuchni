@@ -99,10 +99,10 @@ class SearchListFragment : Fragment() {
         searchRecipesByText(name, params.filters.joinToString(",").lowercase())
         Log.d("SearchRecipes","cokolwiek: ${recipesList.size}")
         //await lub coś lepszego
-        searchRecipesByText(params.dishName, params.filters.joinToString(",").lowercase(),params.sortOptions[0])
+        searchRecipesByText(params.dishName, params.filters.joinToString(",").lowercase(), params.sortOptions.joinToString())
 
     }
 
-    val apiKey = "26a6b66669354a3fab1a34af17b17baf"
+    val apiKey = "c00df3c343d14c7390f49b9adc0c1cfe"
     var recipesList = mutableListOf<Recipe>()
 }

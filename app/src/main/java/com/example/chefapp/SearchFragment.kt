@@ -64,6 +64,7 @@ class SearchFragment : Fragment() {
                     selectedSortOptions.add(radioButton.text.toString())
                 }
             }
+
             Log.d("Szukaj","sort:${selectedSortOptions}")
 
             // Trigger the search action
