@@ -142,6 +142,15 @@
                 android:layout_marginTop="16dp"
                 android:id="@+id/del"
                 android:text="Remove from favorites"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:background="#666666"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:id="@+id/print"
+                android:text="Print to pdf"/>
 
         </LinearLayout>
 

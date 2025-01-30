@@ -1,7 +1,12 @@
 package com.example.chefapp
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
+import android.os.Environment
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,14 +17,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
 
 class DishFragment : Fragment() {
+
     private val detailedRecipeViewModel: DetailedRecipeViewModel by activityViewModels()
     private val cartViewModel: CartViewModel by activityViewModels()
     private var recipe: Recipe? = null
     private lateinit var favoritesManager: FavoritesManager
     private lateinit var favButton: Button
     private lateinit var delButton: Button
+    private lateinit var printButton: Button
 
     private inner class FavoritesManager(context: Context) {
         private val fileName = "favorites.json"
@@ -69,13 +81,13 @@ class DishFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_dish, container, false)
         favoritesManager = FavoritesManager(requireContext())
 
-        // Inicjalizacja widoków
         val dishImageView: ImageView = view.findViewById(R.id.iv_dish_image)
         val dishNameTextView: TextView = view.findViewById(R.id.tv_dish_name)
         val startCookingButton: Button = view.findViewById(R.id.btn_start_cooking)
@@ -88,36 +100,47 @@ class DishFragment : Fragment() {
         val ingredientsListView: ListView = view.findViewById(R.id.lv_ingredients)
         favButton = view.findViewById(R.id.fav)
         delButton = view.findViewById(R.id.del)
+        printButton = view.findViewById(R.id.print)
 
-        // Obsługa przycisków ulubionych
+        printButton.setOnClickListener {
+            recipe?.let { generatePdf(it) } ?: showError("Brak danych przepisu")
+        }
+
         favButton.setOnClickListener {
             recipe?.id?.let { recipeId ->
                 favoritesManager.addFavorite(recipeId)
-                Toast.makeText(context, "Dodano do ulubionych!", Toast.LENGTH_SHORT).show()
+                showToast("Dodano do ulubionych!")
                 updateFavoriteButtons()
-            } ?: showRecipeIdError()
+            } ?: showError("Brak ID przepisu")
         }
 
         delButton.setOnClickListener {
             recipe?.id?.let { recipeId ->
                 favoritesManager.removeFavorite(recipeId)
-                Toast.makeText(context, "Usunięto z ulubionych!", Toast.LENGTH_SHORT).show()
+                showToast("Usunięto z ulubionych!")
                 updateFavoriteButtons()
-            } ?: showRecipeIdError()
+            } ?: showError("Brak ID przepisu")
         }
 
-        // Obserwacja zmian przepisu
         detailedRecipeViewModel.selectedRecipe.observe(viewLifecycleOwner) { selectedRecipe ->
             recipe = selectedRecipe
-            updateUI(dishImageView, dishNameTextView, dishCostTextView, dishDifficultyTextView,
-                dishCaloriesTextView, dishDescriptionTextView, dishDietTextView, ingredientsListView)
+            updateUI(
+                dishImageView,
+                dishNameTextView,
+                dishCostTextView,
+                dishDifficultyTextView,
+                dishCaloriesTextView,
+                dishDescriptionTextView,
+                dishDietTextView,
+                ingredientsListView
+            )
             updateFavoriteButtons()
         }
 
-        // Obsługa innych przycisków
         btnAddAllIngredients.setOnClickListener {
             recipe?.extendedIngredients?.let { ingredients ->
                 cartViewModel.addIngredients(ingredients)
+                showToast("Dodano składniki do koszyka")
             }
         }
 
@@ -126,6 +149,143 @@ class DishFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun generatePdf(recipe: Recipe) {
+        RetrofitInstance.api.getRecipeDetails(
+            recipe.id,
+            true,
+            "bb03710b9c6f4b4e92bb7f7492777879"
+        ).enqueue(object : Callback<RecipeDetails> {
+            override fun onResponse(
+                call: Call<RecipeDetails>,
+                response: Response<RecipeDetails>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { details ->
+                        createPdfDocument(details)
+                    }
+                } else {
+                    showError("Błąd pobierania instrukcji")
+                }
+            }
+
+            override fun onFailure(call: Call<RecipeDetails>, t: Throwable) {
+                showError("Błąd sieci: ${t.message}")
+            }
+        })
+    }
+
+    private fun createPdfDocument(recipeDetails: RecipeDetails) {
+        try {
+            val document = PdfDocument()
+            var currentPageNumber = 1
+            var page: PdfDocument.Page? = null
+            var canvas: Canvas? = null
+            var yPos = 80f
+            val margin = 50f
+            val pageWidth = 595f
+            val pageHeight = 842f
+            val textPaint = Paint().apply {
+                color = Color.BLACK
+                textSize = 12f
+            }
+            val lineHeight = textPaint.fontSpacing
+            var isFirstPage = true
+            var globalStepNumber = 1
+
+            fun startNewPage() {
+                page?.let { document.finishPage(it) }
+                val pageInfo = PdfDocument.PageInfo.Builder(pageWidth.toInt(), pageHeight.toInt(), currentPageNumber).create()
+                page = document.startPage(pageInfo)
+                canvas = page?.canvas
+                yPos = if (isFirstPage) 80f else margin
+                isFirstPage = false
+                currentPageNumber++
+            }
+
+            startNewPage()
+
+            // Tytuł
+            canvas?.drawText(
+                recipeDetails.title,
+                margin,
+                yPos,
+                Paint().apply {
+                    color = Color.DKGRAY
+                    textSize = 20f
+                    isFakeBoldText = true
+                }
+            )
+            yPos += 40f
+
+            // Składniki
+            if (yPos + lineHeight > pageHeight - margin) startNewPage()
+            canvas?.drawText("Składniki:", margin, yPos, textPaint)
+            yPos += 30f
+
+            recipeDetails.extendedIngredients.forEach { ingredient ->
+                val text = "- ${ingredient.name} (${ingredient.amount} ${ingredient.unit})"
+                if (yPos + lineHeight > pageHeight - margin) startNewPage()
+                canvas?.drawText(text, margin, yPos, textPaint)
+                yPos += lineHeight
+            }
+
+            // Instrukcje
+            yPos += 30f
+            if (yPos + lineHeight > pageHeight - margin) startNewPage()
+            canvas?.drawText("Instrukcje:", margin, yPos, textPaint)
+            yPos += 30f
+
+            recipeDetails.analyzedInstructions.flatMap { it.steps }.forEach { step ->
+                val stepText = "Krok $globalStepNumber: ${step.step}"
+                val lines = splitTextIntoLines(stepText, textPaint, pageWidth - 2 * margin)
+
+                lines.forEach { line ->
+                    if (yPos + lineHeight > pageHeight - margin) startNewPage()
+                    canvas?.drawText(line, margin, yPos, textPaint)
+                    yPos += lineHeight
+                }
+                yPos += 10f
+                globalStepNumber++
+            }
+
+            document.finishPage(page!!)
+
+            val docsDir = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+                "ChefApp"
+            )
+            docsDir.mkdirs()
+            val pdfFile = File(docsDir, "${recipeDetails.title.sanitizeFileName()}.pdf")
+            document.writeTo(FileOutputStream(pdfFile))
+            document.close()
+
+            showToast("PDF zapisano w: ${pdfFile.absolutePath}")
+        } catch (e: Exception) {
+            showError("Błąd generowania PDF: ${e.message}")
+        }
+    }
+
+    private fun splitTextIntoLines(text: String, paint: Paint, maxWidth: Float): List<String> {
+        val lines = mutableListOf<String>()
+        var currentLine = ""
+
+        text.split(" ").forEach { word ->
+            val testLine = if (currentLine.isEmpty()) word else "$currentLine $word"
+            if (paint.measureText(testLine) <= maxWidth) {
+                currentLine = testLine
+            } else {
+                lines.add(currentLine)
+                currentLine = word
+            }
+        }
+        lines.add(currentLine)
+        return lines
+    }
+
+    private fun String.sanitizeFileName(): String {
+        return this.replace("[^a-zA-Z0-9_\\-]".toRegex(), "_")
     }
 
     private fun updateUI(
@@ -140,15 +300,13 @@ class DishFragment : Fragment() {
     ) {
         recipe?.let {
             dishNameTextView.text = it.title
-            dishCostTextView.text = "${it.pricePerServing} cents per serving"
-            dishDifficultyTextView.text = "${it.readyInMinutes} minutes"
-            dishCaloriesTextView.text = "${it.nutrition?.nutrients?.getOrNull(0)?.amount} calories"
-            dishDescriptionTextView.text = removeHtmlTags(it.summary ?: "")
-            dishDietTextView.text = it.diets?.joinToString(", ")?.lowercase() ?: ""
+            dishCostTextView.text = "${it.pricePerServing} ¢/porcję"
+            dishDifficultyTextView.text = "${it.readyInMinutes} minut"
+            dishCaloriesTextView.text = "${it.nutrition.nutrients.firstOrNull()?.amount} kcal"
+            dishDescriptionTextView.text = removeHtmlTags(it.summary)
+            dishDietTextView.text = it.diets.joinToString(", ").lowercase()
 
-            it.extendedIngredients?.let { ingredients ->
-                ingredientsListView.adapter = ExtendedIngredientAdapter(requireContext(), ingredients)
-            }
+            ingredientsListView.adapter = ExtendedIngredientAdapter(requireContext(), it.extendedIngredients)
 
             Glide.with(this)
                 .load(it.image)
@@ -159,18 +317,9 @@ class DishFragment : Fragment() {
 
     private fun updateFavoriteButtons() {
         recipe?.id?.let { recipeId ->
-            if (favoritesManager.isFavorite(recipeId)) {
-                favButton.visibility = View.GONE
-                delButton.visibility = View.VISIBLE
-            } else {
-                favButton.visibility = View.VISIBLE
-                delButton.visibility = View.GONE
-            }
+            favButton.visibility = if (favoritesManager.isFavorite(recipeId)) View.GONE else View.VISIBLE
+            delButton.visibility = if (favoritesManager.isFavorite(recipeId)) View.VISIBLE else View.GONE
         }
-    }
-
-    private fun showRecipeIdError() {
-        Toast.makeText(context, "Błąd: brak ID przepisu", Toast.LENGTH_SHORT).show()
     }
 
     private fun openCookingInstructionFragment() {
@@ -179,11 +328,19 @@ class DishFragment : Fragment() {
                 .replace(R.id.frame_layout, CookingInstructionFragment.newInstance(recipeId))
                 .addToBackStack(null)
                 .commit()
-        } ?: showRecipeIdError()
+        } ?: showError("Brak ID przepisu")
     }
 
     private fun removeHtmlTags(input: String): String {
         return Html.fromHtml(input, Html.FROM_HTML_MODE_LEGACY).toString()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(context, "Błąd: $message", Toast.LENGTH_LONG).show()
     }
 
     private class ExtendedIngredientAdapter(
