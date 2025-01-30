@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#DAB2D8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/et_dish_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Dish Name"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:background="@android:color/white"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/et_dish_cost"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Cost"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:background="@android:color/white"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_dish_difficulty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Time To Make"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:background="@android:color/white"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_dish_calories"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Calories"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:background="@android:color/white"
+                android:padding="8dp" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_dish_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter description"
+            android:textSize="16sp"
+            android:textColor="#444444"
+            android:background="@android:color/white"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingredients:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Ingredient Input Fields -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/et_ingredient_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="Name"
+                android:textSize="16sp"
+                android:background="@android:color/white"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_ingredient_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Amount"
+                android:textSize="16sp"
+                android:background="@android:color/white"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_ingredient_units"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Units"
+                android:textSize="16sp"
+                android:background="@android:color/white"
+                android:padding="8dp" />
+        </LinearLayout>
+
+        <!-- Add Ingredient Button -->
+        <Button
+            android:id="@+id/btn_add_ingredient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:background="#666666"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- RecyclerView for Added Ingredients -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:nestedScrollingEnabled="true" />
+
+        <EditText
+            android:id="@+id/et_diet_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Diet Type"
+            android:textSize="16sp"
+            android:textColor="#666666"
+            android:background="@android:color/white"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instructions:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/et_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter cooking instructions"
+            android:textSize="16sp"
+            android:textColor="#444444"
+            android:background="@android:color/white"
+            android:padding="8dp"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:minLines="5"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btn_save_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Recipe"
+            android:background="#666666"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>
