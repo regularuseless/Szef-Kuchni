@@ -1,0 +1,72 @@
+# 2025-01-30T06:21:20.718051100Z:
+test_suite_meta_data {
+  scheduled_test_case_count: 1
+}
+test_status: FAILED
+test_result {
+  test_case {
+    test_class: "SearchFragmentTest"
+    test_method: "testSearchButtonClick"
+    start_time {
+      seconds: 1738218079
+      nanos: 556000000
+    }
+    end_time {
+      seconds: 1738218079
+      nanos: 808000000
+    }
+  }
+  test_status: FAILED
+  error {
+    error_message: "org.mockito.exceptions.base.MockitoException:\nFailed to release mocks\n\nThis should not happen unless you are using a third-party mock maker\nat SearchFragmentTest.setUp(SearchListFragmentTest.kt:34)\n... 32 trimmed\nCaused by: org.mockito.exceptions.base.MockitoException:\nCannot mock/spy class com.example.chefapp.SearchViewModel\nMockito cannot mock/spy because :\n- final class\n... 34 more\n"
+    error_type: "org.mockito.exceptions.base.MockitoException"
+    stack_trace: "org.mockito.exceptions.base.MockitoException:\nFailed to release mocks\n\nThis should not happen unless you are using a third-party mock maker\nat SearchFragmentTest.setUp(SearchListFragmentTest.kt:34)\n... 32 trimmed\nCaused by: org.mockito.exceptions.base.MockitoException:\nCannot mock/spy class com.example.chefapp.SearchViewModel\nMockito cannot mock/spy because :\n- final class\n... 34 more\n"
+  }
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "C:\\Users\\dudik\\Documents\\GitHub\\Szef-Kuchni\\app\\build\\outputs\\androidTest-results\\connected\\debug\\Medium_Phone_API_35(AVD) - 15\\logcat-.SearchFragmentTest-testSearchButtonClick.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "C:\\Users\\dudik\\Documents\\GitHub\\Szef-Kuchni\\app\\build\\outputs\\androidTest-results\\connected\\debug\\Medium_Phone_API_35(AVD) - 15\\device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "C:\\Users\\dudik\\Documents\\GitHub\\Szef-Kuchni\\app\\build\\outputs\\androidTest-results\\connected\\debug\\Medium_Phone_API_35(AVD) - 15\\meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "C:\\Users\\dudik\\Documents\\GitHub\\Szef-Kuchni\\app\\build\\outputs\\androidTest-results\\connected\\debug\\Medium_Phone_API_35(AVD) - 15\\cpuinfo"
+    }
+  }
+}
+output_artifact {
+  label {
+    label: "test-results.log"
+    namespace: "com.google.testing.platform.runtime.android.driver.AndroidInstrumentationDriver"
+  }
+  source_path {
+    path: "C:\\Users\\dudik\\Documents\\GitHub\\Szef-Kuchni\\app\\build\\outputs\\androidTest-results\\connected\\debug\\Medium_Phone_API_35(AVD) - 15\\testlog\\test-results.log"
+  }
+  type: TEST_DATA
+  mime_type: "text/plain"
+}

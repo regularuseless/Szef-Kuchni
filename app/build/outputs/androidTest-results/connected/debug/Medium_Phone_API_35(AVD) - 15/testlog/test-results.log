@@ -1,0 +1,63 @@
+INSTRUMENTATION_STATUS: class=SearchFragmentTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+SearchFragmentTest:
+INSTRUMENTATION_STATUS: test=testSearchButtonClick
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=SearchFragmentTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stack=org.mockito.exceptions.base.MockitoException:
+Failed to release mocks
+
+This should not happen unless you are using a third-party mock maker
+at SearchFragmentTest.setUp(SearchListFragmentTest.kt:34)
+... 32 trimmed
+Caused by: org.mockito.exceptions.base.MockitoException:
+Cannot mock/spy class com.example.chefapp.SearchViewModel
+Mockito cannot mock/spy because :
+- final class
+... 34 more
+
+INSTRUMENTATION_STATUS: stream=
+Error in testSearchButtonClick(SearchFragmentTest):
+org.mockito.exceptions.base.MockitoException:
+Failed to release mocks
+
+This should not happen unless you are using a third-party mock maker
+at SearchFragmentTest.setUp(SearchListFragmentTest.kt:34)
+... 32 trimmed
+Caused by: org.mockito.exceptions.base.MockitoException:
+Cannot mock/spy class com.example.chefapp.SearchViewModel
+Mockito cannot mock/spy because :
+- final class
+... 34 more
+
+INSTRUMENTATION_STATUS: test=testSearchButtonClick
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_RESULT: stream=
+
+Time: 0.257
+There was 1 failure:
+1) testSearchButtonClick(SearchFragmentTest)
+org.mockito.exceptions.base.MockitoException:
+Failed to release mocks
+
+This should not happen unless you are using a third-party mock maker
+at SearchFragmentTest.setUp(SearchListFragmentTest.kt:34)
+... 32 trimmed
+Caused by: org.mockito.exceptions.base.MockitoException:
+Cannot mock/spy class com.example.chefapp.SearchViewModel
+Mockito cannot mock/spy because :
+- final class
+... 34 more
+
+FAILURES!!!
+Tests run: 1,  Failures: 1
+
+
+INSTRUMENTATION_CODE: -1
+

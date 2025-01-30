@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name=".SearchFragmentTest" tests="1" failures="1" errors="0" skipped="0" time="1.109" timestamp="2025-01-30T06:21:20" hostname="localhost">
+  <properties>
+    <property name="device" value="Medium_Phone_API_35(AVD) - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="testSearchButtonClick" classname=".SearchFragmentTest" time="0.247">
+    <failure>org.mockito.exceptions.base.MockitoException:
+Failed to release mocks
+
+This should not happen unless you are using a third-party mock maker
+at SearchFragmentTest.setUp(SearchListFragmentTest.kt:34)
+... 32 trimmed
+Caused by: org.mockito.exceptions.base.MockitoException:
+Cannot mock/spy class com.example.chefapp.SearchViewModel
+Mockito cannot mock/spy because :
+- final class
+... 34 more
+</failure>
+  </testcase>
+</testsuite>

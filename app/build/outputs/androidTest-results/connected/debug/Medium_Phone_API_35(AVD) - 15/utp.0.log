@@ -1,0 +1,66 @@
+INFO: Constructing runner from config.
+INFO: Configuring Android Instrumentation driver: android_instrumentation_runtime {
+  instrumentation_info {
+    app_package: "com.example.chefapp"
+    test_package: "com.example.chefapp.test"
+    test_runner_class: "androidx.test.runner.AndroidJUnitRunner"
+  }
+  instrumentation_args {
+    args_map {
+      key: "additionalTestOutputDir"
+      value: "/sdcard/Android/media/com.example.chefapp/additional_test_output"
+    }
+    args_map {
+      key: "class"
+      value: "SearchFragmentTest"
+    }
+  }
+}
+am_instrument_timeout: 31536000
+
+INFO: Configuring AndroidTestApkInstallerPlugin: apks_to_install {
+  apk_paths: "C:\\Users\\dudik\\Documents\\GitHub\\Szef-Kuchni\\app\\build\\intermediates\\apk\\debug\\app-debug.apk"
+  install_options {
+  }
+  uninstall_after_test: true
+}
+apks_to_install {
+  apk_paths: "C:\\Users\\dudik\\Documents\\GitHub\\Szef-Kuchni\\app\\build\\intermediates\\apk\\androidTest\\debug\\app-debug-androidTest.apk"
+  install_options {
+  }
+  uninstall_after_test: true
+}
+
+INFO: No installables found in test fixture. Nothing to install.
+INFO: Installing [C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\apk\debug\app-debug.apk] on device emulator-5554.
+INFO: Installing [C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\apk\androidTest\debug\app-debug-androidTest.apk] on device emulator-5554.
+INFO: Start logcat streaming.
+INFO: Running Android Instrumentation driver.
+INFO: Copying files from device to host: /sdcard/Android/media/com.example.chefapp/additional_test_output to C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\outputs\connected_android_test_additional_output\debugAndroidTest\connected\Medium_Phone_API_35(AVD) - 15
+INFO: Stop logcat streaming.
+INFO: Uninstalling com.example.chefapp for device emulator-5554.
+INFO: Uninstalling com.example.chefapp.test for device emulator-5554.
+SEVERE: Execute .SearchFragmentTest.testSearchButtonClick: FAILED
+org.mockito.exceptions.base.MockitoException: org.mockito.exceptions.base.MockitoException:
+Failed to release mocks
+
+This should not happen unless you are using a third-party mock maker
+at SearchFragmentTest.setUp(SearchListFragmentTest.kt:34)
+... 32 trimmed
+Caused by: org.mockito.exceptions.base.MockitoException:
+Cannot mock/spy class com.example.chefapp.SearchViewModel
+Mockito cannot mock/spy because :
+- final class
+... 34 more
+
+org.mockito.exceptions.base.MockitoException:
+Failed to release mocks
+
+This should not happen unless you are using a third-party mock maker
+at SearchFragmentTest.setUp(SearchListFragmentTest.kt:34)
+... 32 trimmed
+Caused by: org.mockito.exceptions.base.MockitoException:
+Cannot mock/spy class com.example.chefapp.SearchViewModel
+Mockito cannot mock/spy because :
+- final class
+... 34 more

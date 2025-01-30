@@ -1,0 +1,330 @@
+[
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_extended_item_ingredient.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/extended_item_ingredient.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_fragment_main_page.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/fragment_main_page.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xhdpi_profile_image_placeholder_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xhdpi/profile_image_placeholder_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_spinner_background.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/spinner_background.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxxhdpi_ic_house_foreground.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxxhdpi/ic_house_foreground.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_item_dish.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/item_dish.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_house_icon.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/house_icon.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-hdpi_ic_house_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-hdpi/ic_house_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-mdpi_profile_image_placeholder_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-mdpi/profile_image_placeholder_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-anydpi-v26_profile_image_placeholder_round.xml.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-anydpi-v26/profile_image_placeholder_round.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_placeholder_image.png.flat",
+        "source": "com.example.chefapp-main-43:/drawable/placeholder_image.png"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xhdpi_ic_house_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xhdpi/ic_house_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxxhdpi_ic_house.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxxhdpi/ic_house.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_fragment_custom_dish.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/fragment_custom_dish.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_item_allergen.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/item_allergen.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-mdpi_profile_image_placeholder.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-mdpi/profile_image_placeholder.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-mdpi_profile_image_placeholder_foreground.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-mdpi/profile_image_placeholder_foreground.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_fragment_dish.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/fragment_dish.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_rounded_box.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/rounded_box.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_fragment_cart.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/fragment_cart.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xhdpi_ic_house.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xhdpi/ic_house.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-anydpi-v26_ic_house.xml.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-anydpi-v26/ic_house.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-anydpi-v26_profile_image_placeholder.xml.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-anydpi-v26/profile_image_placeholder.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xhdpi_profile_image_placeholder_foreground.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xhdpi/profile_image_placeholder_foreground.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_ic_house.png.flat",
+        "source": "com.example.chefapp-main-43:/drawable/ic_house.png"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_ic_plus.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/ic_plus.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_search_icon.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/search_icon.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-hdpi_profile_image_placeholder_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-hdpi/profile_image_placeholder_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_fragment_search_list.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/fragment_search_list.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_fragment_settings.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxxhdpi_ic_house_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxxhdpi/ic_house_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-hdpi_ic_house.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-hdpi/ic_house.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_item_diet.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/item_diet.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xhdpi_ic_house_foreground.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xhdpi/ic_house_foreground.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_item_ingredient.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/item_ingredient.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/xml_backup_rules.xml.flat",
+        "source": "com.example.chefapp-main-43:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-mdpi_ic_house_foreground.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-mdpi/ic_house_foreground.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_icons8_settings.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/icons8_settings.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xhdpi_profile_image_placeholder.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xhdpi/profile_image_placeholder.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-hdpi_ic_house_foreground.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-hdpi/ic_house_foreground.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxhdpi_ic_house_foreground.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxhdpi/ic_house_foreground.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-mdpi_ic_house_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-mdpi/ic_house_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-hdpi_profile_image_placeholder_foreground.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-hdpi/profile_image_placeholder_foreground.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_profile_icon.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/profile_icon.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_fragment_profile.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_profile_image_placeholder_background.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/profile_image_placeholder_background.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_ic_minus.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/ic_minus.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_item_ingredient_custom.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/item_ingredient_custom.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_cart_icon.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/cart_icon.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_fragment_cooking_instruction.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/fragment_cooking_instruction.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_ic_house_background.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/ic_house_background.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-anydpi-v26_ic_house_round.xml.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-anydpi-v26/ic_house_round.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxxhdpi_profile_image_placeholder.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxxhdpi/profile_image_placeholder.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-mdpi_ic_house.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-mdpi/ic_house.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_error_image.png.flat",
+        "source": "com.example.chefapp-main-43:/drawable/error_image.png"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxxhdpi_profile_image_placeholder_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxxhdpi/profile_image_placeholder_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxhdpi_profile_image_placeholder_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxhdpi/profile_image_placeholder_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_activity_main.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxhdpi_profile_image_placeholder.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxhdpi/profile_image_placeholder.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxhdpi_profile_image_placeholder_foreground.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxhdpi/profile_image_placeholder_foreground.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_fridge_icon.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/fridge_icon.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/drawable_edittext_background.xml.flat",
+        "source": "com.example.chefapp-main-43:/drawable/edittext_background.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.chefapp-main-43:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-hdpi_profile_image_placeholder.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-hdpi/profile_image_placeholder.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxhdpi_ic_house_round.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxhdpi/ic_house_round.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxxhdpi_profile_image_placeholder_foreground.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxxhdpi/profile_image_placeholder_foreground.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/mipmap-xxhdpi_ic_house.webp.flat",
+        "source": "com.example.chefapp-main-43:/mipmap-xxhdpi/ic_house.webp"
+    },
+    {
+        "merged": "com.example.chefapp-debug-41:/layout_fragment_search.xml.flat",
+        "source": "com.example.chefapp-main-43:/layout/fragment_search.xml"
+    }
+]

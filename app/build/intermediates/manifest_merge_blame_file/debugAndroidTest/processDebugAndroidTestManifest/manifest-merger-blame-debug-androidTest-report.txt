@@ -1,0 +1,58 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.chefapp.test" >
+4
+5    <uses-sdk
+5-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:5:5-74
+6        android:minSdkVersion="24"
+6-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:5:15-41
+7        android:targetSdkVersion="34" />
+7-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:5:42-71
+8
+9    <instrumentation
+9-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:11:5-15:69
+10        android:name="androidx.test.runner.AndroidJUnitRunner"
+10-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:11:22-76
+11        android:functionalTest="false"
+11-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:14:22-52
+12        android:handleProfiling="false"
+12-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:13:22-53
+13        android:label="Tests for com.example.chefapp"
+13-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:15:22-67
+14        android:targetPackage="com.example.chefapp" />
+14-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:12:22-65
+15
+16    <uses-permission android:name="android.permission.REORDER_TASKS" />
+16-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:23:5-72
+16-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:23:22-69
+17
+18    <application
+18-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:7:5-9:19
+19        android:debuggable="true"
+20        android:extractNativeLibs="false" >
+21        <uses-library android:name="android.test.runner" />
+21-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:8:9-60
+21-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest9004735938307661511.xml:8:23-57
+22
+23        <activity
+23-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:26:9-35:20
+24            android:name="androidx.fragment.app.testing.EmptyFragmentActivity"
+24-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:27:13-79
+25            android:exported="true"
+25-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:28:13-36
+26            android:multiprocess="true"
+26-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:29:13-40
+27            android:taskAffinity=""
+27-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:30:13-36
+28            android:theme="@style/FragmentScenarioEmptyFragmentActivityTheme" >
+28-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:31:13-78
+29            <intent-filter>
+29-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:32:13-34:29
+30                <action android:name="android.intent.action.MAIN" />
+30-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:33:17-69
+30-->[androidx.fragment:fragment-testing-manifest:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\556965eeeab7df8dd641e63a33323f62\transformed\fragment-testing-manifest-1.6.1\AndroidManifest.xml:33:25-66
+31            </intent-filter>
+32        </activity>
+33    </application>
+34
+35</manifest>

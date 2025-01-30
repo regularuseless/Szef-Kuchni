@@ -1,0 +1,213 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.chefapp"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:2:5-66
+11-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:2:22-64
+12    <uses-permission
+12-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:3:5-4:42
+13        android:name="android.permission.READ_EXTERNAL_STORAGE"
+13-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:3:22-77
+14        android:maxSdkVersion="28" />
+14-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:4:13-39
+15    <uses-permission
+15-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:5:5-6:42
+16        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+16-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:5:22-78
+17        android:maxSdkVersion="28" />
+17-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:6:13-39
+18
+19    <permission
+19-->[androidx.core:core:1.15.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c5800878067c05b58f977782e9822588\transformed\core-1.15.0\AndroidManifest.xml:22:5-24:47
+20        android:name="com.example.chefapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+20-->[androidx.core:core:1.15.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c5800878067c05b58f977782e9822588\transformed\core-1.15.0\AndroidManifest.xml:23:9-81
+21        android:protectionLevel="signature" />
+21-->[androidx.core:core:1.15.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c5800878067c05b58f977782e9822588\transformed\core-1.15.0\AndroidManifest.xml:24:9-44
+22
+23    <uses-permission android:name="com.example.chefapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+23-->[androidx.core:core:1.15.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c5800878067c05b58f977782e9822588\transformed\core-1.15.0\AndroidManifest.xml:26:5-97
+23-->[androidx.core:core:1.15.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c5800878067c05b58f977782e9822588\transformed\core-1.15.0\AndroidManifest.xml:26:22-94
+24    <uses-permission android:name="android.permission.REORDER_TASKS" />
+24-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:24:5-72
+24-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:24:22-69
+25
+26    <queries>
+26-->[androidx.test:runner:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\32e173c141db778c5fdc8a5a3e19099f\transformed\runner-1.6.1\AndroidManifest.xml:24:5-28:15
+27        <package android:name="androidx.test.orchestrator" />
+27-->[androidx.test:runner:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\32e173c141db778c5fdc8a5a3e19099f\transformed\runner-1.6.1\AndroidManifest.xml:25:9-62
+27-->[androidx.test:runner:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\32e173c141db778c5fdc8a5a3e19099f\transformed\runner-1.6.1\AndroidManifest.xml:25:18-59
+28        <package android:name="androidx.test.services" />
+28-->[androidx.test:runner:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\32e173c141db778c5fdc8a5a3e19099f\transformed\runner-1.6.1\AndroidManifest.xml:26:9-58
+28-->[androidx.test:runner:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\32e173c141db778c5fdc8a5a3e19099f\transformed\runner-1.6.1\AndroidManifest.xml:26:18-55
+29        <package android:name="com.google.android.apps.common.testing.services" />
+29-->[androidx.test:runner:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\32e173c141db778c5fdc8a5a3e19099f\transformed\runner-1.6.1\AndroidManifest.xml:27:9-83
+29-->[androidx.test:runner:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\32e173c141db778c5fdc8a5a3e19099f\transformed\runner-1.6.1\AndroidManifest.xml:27:18-80
+30    </queries>
+31
+32    <application
+32-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:7:5-14:19
+33        android:allowBackup="true"
+33-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:7:54-80
+34        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+34-->[androidx.core:core:1.15.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c5800878067c05b58f977782e9822588\transformed\core-1.15.0\AndroidManifest.xml:28:18-86
+35        android:dataExtractionRules="@xml/data_extraction_rules"
+35-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:7:81-137
+36        android:debuggable="true"
+37        android:extractNativeLibs="false"
+38        android:fullBackupContent="@xml/backup_rules"
+38-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:7:138-183
+39        android:icon="@mipmap/ic_launcher"
+39-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:7:184-218
+40        android:label="@string/app_name"
+40-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:7:219-251
+41        android:roundIcon="@mipmap/ic_launcher_round"
+41-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:7:252-297
+42        android:supportsRtl="true"
+42-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:7:298-324
+43        android:testOnly="true"
+44        android:theme="@style/Theme.ChefApp"
+44-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:7:325-361
+45        android:usesCleartextTraffic="true" >
+45-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:7:18-53
+46        <activity
+46-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:8:9-13:20
+47            android:name="com.example.chefapp.MainActivity"
+47-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:8:19-47
+48            android:exported="true" >
+48-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:8:48-71
+49            <intent-filter>
+49-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:9:13-12:29
+50                <action android:name="android.intent.action.MAIN" />
+50-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:10:17-68
+50-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:10:25-66
+51
+52                <category android:name="android.intent.category.LAUNCHER" />
+52-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:11:17-76
+52-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:11:27-74
+53            </intent-filter>
+54        </activity>
+55
+56        <provider
+56-->[androidx.emoji2:emoji2:1.3.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c7939fdd80c83e57860e0166c69588e7\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+57            android:name="androidx.startup.InitializationProvider"
+57-->[androidx.emoji2:emoji2:1.3.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c7939fdd80c83e57860e0166c69588e7\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+58            android:authorities="com.example.chefapp.androidx-startup"
+58-->[androidx.emoji2:emoji2:1.3.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c7939fdd80c83e57860e0166c69588e7\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+59            android:exported="false" >
+59-->[androidx.emoji2:emoji2:1.3.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c7939fdd80c83e57860e0166c69588e7\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+60            <meta-data
+60-->[androidx.emoji2:emoji2:1.3.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c7939fdd80c83e57860e0166c69588e7\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+61                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+61-->[androidx.emoji2:emoji2:1.3.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c7939fdd80c83e57860e0166c69588e7\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+62                android:value="androidx.startup" />
+62-->[androidx.emoji2:emoji2:1.3.0] C:\Users\dudik\.gradle\caches\8.9\transforms\c7939fdd80c83e57860e0166c69588e7\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+63            <meta-data
+63-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\dudik\.gradle\caches\8.9\transforms\fd60d9f29d85ba9a8bcf2e2a06afd984\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:29:13-31:52
+64                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+64-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\dudik\.gradle\caches\8.9\transforms\fd60d9f29d85ba9a8bcf2e2a06afd984\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:30:17-78
+65                android:value="androidx.startup" />
+65-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\dudik\.gradle\caches\8.9\transforms\fd60d9f29d85ba9a8bcf2e2a06afd984\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:31:17-49
+66            <meta-data
+66-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+67                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+67-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+68                android:value="androidx.startup" />
+68-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+69        </provider>
+70
+71        <activity
+71-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:27:9-34:20
+72            android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
+72-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:28:13-99
+73            android:exported="true"
+73-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:29:13-36
+74            android:theme="@style/WhiteBackgroundTheme" >
+74-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:30:13-56
+75            <intent-filter android:priority="-100" >
+75-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:31:13-33:29
+75-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:31:28-51
+76                <category android:name="android.intent.category.LAUNCHER" />
+76-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:11:17-76
+76-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:11:27-74
+77            </intent-filter>
+78        </activity>
+79        <activity
+79-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:35:9-42:20
+80            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
+80-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:36:13-95
+81            android:exported="true"
+81-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:37:13-36
+82            android:theme="@style/WhiteBackgroundTheme" >
+82-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:38:13-56
+83            <intent-filter android:priority="-100" >
+83-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:31:13-33:29
+83-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:31:28-51
+84                <category android:name="android.intent.category.LAUNCHER" />
+84-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:11:17-76
+84-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:11:27-74
+85            </intent-filter>
+86        </activity>
+87        <activity
+87-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:43:9-50:20
+88            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
+88-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:44:13-103
+89            android:exported="true"
+89-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:45:13-36
+90            android:theme="@style/WhiteBackgroundDialogTheme" >
+90-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:46:13-62
+91            <intent-filter android:priority="-100" >
+91-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:31:13-33:29
+91-->[androidx.test:core:1.6.1] C:\Users\dudik\.gradle\caches\8.9\transforms\74391d9c0867d77f3960319277a42bca\transformed\core-1.6.1\AndroidManifest.xml:31:28-51
+92                <category android:name="android.intent.category.LAUNCHER" />
+92-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:11:17-76
+92-->C:\Users\dudik\Documents\GitHub\Szef-Kuchni\app\src\main\AndroidManifest.xml:11:27-74
+93            </intent-filter>
+94        </activity>
+95
+96        <receiver
+96-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+97            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+97-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+98            android:directBootAware="false"
+98-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+99            android:enabled="true"
+99-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+100            android:exported="true"
+100-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+101            android:permission="android.permission.DUMP" >
+101-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+102            <intent-filter>
+102-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+103                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+103-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+103-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+104            </intent-filter>
+105            <intent-filter>
+105-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+106                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+106-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+106-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+107            </intent-filter>
+108            <intent-filter>
+108-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+109                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+109-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+109-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+110            </intent-filter>
+111            <intent-filter>
+111-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+112                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+112-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+112-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\dudik\.gradle\caches\8.9\transforms\e206ceef91b1a85a50eb01e5c4784c3f\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+113            </intent-filter>
+114        </receiver>
+115    </application>
+116
+117</manifest>

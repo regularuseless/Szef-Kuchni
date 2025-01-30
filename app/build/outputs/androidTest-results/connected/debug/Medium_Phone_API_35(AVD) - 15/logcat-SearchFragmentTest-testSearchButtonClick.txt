@@ -1,0 +1,48 @@
+01-30 06:21:17.478  7417  7432 I TestRunner: started: testSearchButtonClick(SearchFragmentTest)
+01-30 06:21:17.713  7417  7432 E TestRunner: failed: testSearchButtonClick(SearchFragmentTest)
+01-30 06:21:17.716  7417  7432 E TestRunner: ----- begin exception -----
+01-30 06:21:17.716  7417  7432 E TestRunner: org.mockito.exceptions.base.MockitoException:
+01-30 06:21:17.716  7417  7432 E TestRunner: Failed to release mocks
+01-30 06:21:17.716  7417  7432 E TestRunner:
+01-30 06:21:17.716  7417  7432 E TestRunner: This should not happen unless you are using a third-party mock maker
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at SearchFragmentTest.setUp(SearchListFragmentTest.kt:34)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at java.lang.reflect.Method.invoke(Native Method)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at androidx.test.internal.runner.junit4.statement.RunBefores.evaluate(RunBefores.java:76)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:61)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.Suite.runChild(Suite.java:128)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.Suite.runChild(Suite.java:27)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:68)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at androidx.test.internal.runner.TestExecutor.execute(TestExecutor.java:59)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at androidx.test.runner.AndroidJUnitRunner.onStart(AndroidJUnitRunner.java:463)
+01-30 06:21:17.716  7417  7432 E TestRunner: 	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2594)
+01-30 06:21:17.716  7417  7432 E TestRunner: Caused by: org.mockito.exceptions.base.MockitoException:
+01-30 06:21:17.716  7417  7432 E TestRunner: Cannot mock/spy class com.example.chefapp.SearchViewModel
+01-30 06:21:17.716  7417  7432 E TestRunner: Mockito cannot mock/spy because :
+01-30 06:21:17.716  7417  7432 E TestRunner:  - final class
+01-30 06:21:17.716  7417  7432 E TestRunner: 	... 34 more
+01-30 06:21:17.716  7417  7432 E TestRunner: ----- end exception -----
+01-30 06:21:17.723  7417  7432 I TestRunner: finished: testSearchButtonClick(SearchFragmentTest)
