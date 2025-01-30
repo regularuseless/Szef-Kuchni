@@ -1,59 +1,64 @@
 package com.example.chefapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MainPage.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MainPage : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val recipeViewModel: RecipeViewModel by activityViewModels()
+    private val detailedRecipeViewModel: DetailedRecipeViewModel by activityViewModels()
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var recipeAdapter: RecipeAdapter
+    private var savedRecipes = mutableListOf<Recipe>()  // List of custom recipes
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_page, container, false)
+        val view = inflater.inflate(R.layout.fragment_main_page, container, false)
+
+        recyclerView = view.findViewById(R.id.rv_todays_dishes)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        recipeAdapter = RecipeAdapter(savedRecipes) { selectedRecipe ->
+            // When an item is clicked, pass the recipe to the ViewModel
+            detailedRecipeViewModel.selectRecipe(selectedRecipe)
+            openDishFragment() // Open DishFragment after selecting the recipe
+        }
+        recyclerView.adapter = recipeAdapter
+        recipeViewModel.recipes.observe(viewLifecycleOwner)
+        {
+            newRecipes ->
+            //Log.d("MainPage", "Observed recipes with ingredients size: ${newRecipes.last().extendedIngredients.size}")
+            savedRecipes.clear()
+            savedRecipes.addAll(newRecipes)
+
+            recipeAdapter.notifyDataSetChanged()
+
+            recipeViewModel.saveRecipesToFile(requireContext())
+        }
+        //recipeViewModel.loadRecipesFromFile(requireContext())
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MainPage.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MainPage().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    fun addRecipe(recipe: Recipe) {
+        Log.d("MainPage","dodaję recipe do mainpage")
+        savedRecipes.add(recipe)
+        Log.d("MainPage","dodaję recipe do mainpage")
+        recipeAdapter.notifyItemInserted(savedRecipes.size - 1)
+    }
+    private fun openDishFragment() {
+        val dishFragment = DishFragment() // No need to pass the recipe directly
+        Log.d("MainPage","ingredients size in mainpage: ${savedRecipes[0].extendedIngredients.size}")
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, dishFragment) // Replace with your container ID
+            .addToBackStack(null) // Enable back navigation
+            .commit()
     }
 }

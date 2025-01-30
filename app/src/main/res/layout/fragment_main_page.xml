@@ -52,10 +52,10 @@
         android:gravity="center" />
 
     <TextView
-        android:id="@+id/tv_todays_dishes_title"
+        android:id="@+id/tv_my_recipes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Today's Dishes"
+        android:text="My Recipes"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
