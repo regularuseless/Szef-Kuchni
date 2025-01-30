@@ -70,5 +70,10 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
-    
+    testImplementation ("junit:junit:4.13.2")
+    testImplementation ("io.mockk:mockk:1.13.2")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation ("androidx.fragment:fragment-testing:1.5.5") // Upewnij się, że masz tę zależność
+    testImplementation ("androidx.test.ext:junit:1.1.5")
+    testImplementation ("androidx.test.espresso:espresso-core:3.5.1")
 }

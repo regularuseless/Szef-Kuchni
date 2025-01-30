@@ -25,7 +25,7 @@ class ProfileFragment : Fragment() {
     private lateinit var favoritesManager: FavoritesManager
     private lateinit var recyclerView: RecyclerView
     private lateinit var recipeAdapter: RecipeAdapter
-    private val apiKey = "c00df3c343d14c7390f49b9adc0c1cfe"
+    private val apiKey = "f73a588638a84caa8f80146a4d764e0b"
     private val detailedRecipeViewModel: DetailedRecipeViewModel by activityViewModels()
 
     override fun onCreateView(
