@@ -46,7 +46,7 @@
         android:id="@+id/tv_cooking_streak_days_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Days in a Row"
+        android:text="Recipes in a row"
         android:textSize="16sp"
         android:textColor="#666666"
         android:gravity="center" />

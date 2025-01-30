@@ -1,6 +1,7 @@
 package com.example.chefapp
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -22,9 +23,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class DishFragment : Fragment() {
-
+    private lateinit var  sharedPreferences: SharedPreferences
+    private var streakCount: Int = 0
+    private var lastCookingDate: String = ""
     private val detailedRecipeViewModel: DetailedRecipeViewModel by activityViewModels()
     private val cartViewModel: CartViewModel by activityViewModels()
     private var recipe: Recipe? = null
@@ -88,6 +94,12 @@ class DishFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_dish, container, false)
         favoritesManager = FavoritesManager(requireContext())
 
+        sharedPreferences = requireContext().getSharedPreferences("CookingStreak",Context.MODE_PRIVATE)
+
+        loadStreakData()
+
+
+
         val dishImageView: ImageView = view.findViewById(R.id.iv_dish_image)
         val dishNameTextView: TextView = view.findViewById(R.id.tv_dish_name)
         val startCookingButton: Button = view.findViewById(R.id.btn_start_cooking)
@@ -145,12 +157,60 @@ class DishFragment : Fragment() {
         }
 
         startCookingButton.setOnClickListener {
+            updateStreakCount()
             openCookingInstructionFragment()
         }
 
         return view
     }
+    private fun loadStreakData() {
+        streakCount = sharedPreferences.getInt("streakCount", 0)
+        lastCookingDate = sharedPreferences.getString("lastCookingDate", "") ?: ""
+    }
 
+    private fun updateStreakCount() {
+        val currentDate = getCurrentDate()
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        if (lastCookingDate.isEmpty()) {
+            // First cooking session: Start the streak
+            streakCount = 1
+        } else {
+            val lastCooking = dateFormat.parse(lastCookingDate)
+            val current = dateFormat.parse(currentDate)
+
+            if (lastCooking != null && current != null) {
+                val diffInMillis = current.time - lastCooking.time
+                val diffInHours = diffInMillis / (1000 * 60 * 60)
+
+                if (diffInHours <= 48) {
+                    // User cooked within 48 hours: Increment the streak
+                    streakCount++
+                } else {
+                    // User cooked after 48 hours: Reset the streak
+                    streakCount = 1
+                }
+            }
+        }
+
+        // Save the updated streak count and last cooking date
+        saveStreakData(currentDate)
+
+        // Notify the user about the updated streak
+        showToast("Cooking streak: $streakCount")
+    }
+
+    private fun saveStreakData(currentDate: String) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("streakCount", streakCount)
+        editor.putString("lastCookingDate", currentDate)
+        editor.apply()
+    }
+
+    private fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(Date())
+    }
     private fun generatePdf(recipe: Recipe) {
         RetrofitInstance.api.getRecipeDetails(
             recipe.id,
