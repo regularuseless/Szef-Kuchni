@@ -39,10 +39,10 @@
             android:text="Gluten" />
 
         <CheckBox
-            android:id="@+id/filterNutFree"
+            android:id="@+id/filterNutsFree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nut" />
+            android:text="Nuts" />
 
         <CheckBox
             android:id="@+id/filterDairyFree"
@@ -94,8 +94,8 @@
         android:id="@+id/btnSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
         android:background="#DAB2D8"
-        android:textColor="@android:color/white"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:text="Search"
+        android:textColor="#0D47A1" />
 </LinearLayout>

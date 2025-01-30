@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import java.io.File
@@ -15,6 +16,8 @@ class SettingsFragment : Fragment() {
 
     private lateinit var allergenAdapter: AllergenAdapter
     private lateinit var dietAdapter: DietAdapter
+    private val sharedViewModel: SharedViewModel by activityViewModels() // Dodaj SharedViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +69,10 @@ class SettingsFragment : Fragment() {
             saveSelectedAllergens()
             saveSelectedDiets()
         }
+
+        // Zaktualizuj SharedViewModel z zaznaczonymi alergenami
+        val selectedAllergens = allergenAdapter.getSelectedAllergens()
+        sharedViewModel.selectedAllergens.value = selectedAllergens
 
         return view
     }

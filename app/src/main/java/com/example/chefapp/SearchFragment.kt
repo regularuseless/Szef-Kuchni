@@ -15,12 +15,14 @@ class SearchFragment : Fragment() {
     private lateinit var filterVegan: CheckBox
     private lateinit var filterVegetarian: CheckBox
     private lateinit var filterGlutenFree: CheckBox
-    private lateinit var filterNutFree: CheckBox
+    private lateinit var filterNutsFree: CheckBox
     private lateinit var filterDairyFree: CheckBox
     private lateinit var sortOptionsGroup: RadioGroup
     private lateinit var searchButton: Button
 
     private val searchViewModel: SearchViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels() // Dodaj SharedViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +35,19 @@ class SearchFragment : Fragment() {
         //filterVegan = view.findViewById(R.id.filterVegan)
         //filterVegetarian = view.findViewById(R.id.filterVegetarian)
         filterGlutenFree = view.findViewById(R.id.filterGlutenFree)
-        filterNutFree = view.findViewById(R.id.filterNutFree)
+        filterNutsFree = view.findViewById(R.id.filterNutsFree)
         filterDairyFree = view.findViewById(R.id.filterDairyFree)
         sortOptionsGroup = view.findViewById(R.id.sortOptionsGroup)
         searchButton = view.findViewById(R.id.btnSearch)
+
+        // Przywróć zaznaczone alergeny z SharedViewModel
+        sharedViewModel.selectedAllergens.observe(viewLifecycleOwner) { selectedAllergens ->
+            if (selectedAllergens != null) {
+                filterGlutenFree.isChecked = selectedAllergens.contains("Gluten")
+                filterNutsFree.isChecked = selectedAllergens.contains("Nuts")
+                filterDairyFree.isChecked = selectedAllergens.contains("Dairy")
+            }
+        }
 
         setupSearchButton()
 
@@ -52,7 +63,7 @@ class SearchFragment : Fragment() {
             //if (filterVegan.isChecked) selectedFilters.add("Vegan")
             //if (filterVegetarian.isChecked) selectedFilters.add("Vegetarian")
             if (filterGlutenFree.isChecked) selectedFilters.add("Gluten")
-            if (filterNutFree.isChecked) selectedFilters.add("Nut")
+            if (filterNutsFree.isChecked) selectedFilters.add("Nuts")
             if (filterDairyFree.isChecked) selectedFilters.add("Dairy")
 
             // Get selected sort options (radio buttons)
