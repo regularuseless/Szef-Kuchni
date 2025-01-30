@@ -46,7 +46,7 @@ class SearchListFragment : Fragment() {
         return view
     }
 
-    private fun openDishFragment(recipe: Recipe) {
+    fun openDishFragment(recipe: Recipe) {
         detailedRecipeViewModel.selectRecipe(recipe)
         val fragment = DishFragment()
 
@@ -82,7 +82,7 @@ class SearchListFragment : Fragment() {
             }
         })
     }
-    private fun performSearch(params:SearchParameters)
+    fun performSearch(params:SearchParameters)
     {
         var name=params.dishName
 
@@ -99,10 +99,10 @@ class SearchListFragment : Fragment() {
         searchRecipesByText(name, params.filters.joinToString(",").lowercase())
         Log.d("SearchRecipes","cokolwiek: ${recipesList.size}")
         //await lub coś lepszego
-        searchRecipesByText(params.dishName, params.filters.joinToString(",").lowercase())
+        searchRecipesByText(params.dishName, params.filters.joinToString(",").lowercase(),params.sortOptions[0])
 
     }
 
-    val apiKey = "bb03710b9c6f4b4e92bb7f7492777879"
+    val apiKey = "c00df3c343d14c7390f49b9adc0c1cfe"
     var recipesList = mutableListOf<Recipe>()
 }
