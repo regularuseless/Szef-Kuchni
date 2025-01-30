@@ -1,37 +1,32 @@
 package com.example.chefapp
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Response
 import java.io.File
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var favoritesManager: FavoritesManager
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var recipeAdapter: RecipeAdapter
+    private val apiKey = "bb03710b9c6f4b4e92bb7f7492777879"
+    private val detailedRecipeViewModel: DetailedRecipeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,81 +34,168 @@ class ProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        // Odczytaj zapisane alergeny
-        val selectedAllergens = loadSelectedAllergens()
+        // Inicjalizacja RecyclerView
+        recyclerView = view.findViewById(R.id.ulubione)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Znajdź LinearLayout, w którym będą wyświetlane alergeny
-        val llAllergensList = view.findViewById<LinearLayout>(R.id.ll_allergens_list)
-
-        // Wyczyść istniejące widoki (na wypadek, gdyby były już jakieś elementy)
-        llAllergensList.removeAllViews()
-
-        // Dodaj każdy alergen do LinearLayout
-        for (allergen in selectedAllergens) {
-            val textView = TextView(requireContext()).apply {
-                text = allergen
-                textSize = 16f
-                setPadding(0, 8, 0, 8) // Dodaj odstępy między elementami
-            }
-            llAllergensList.addView(textView)
+        recipeAdapter = RecipeAdapter(emptyList()) { recipe ->
+            // Przekazanie przepisu do ViewModel i nawigacja
+            detailedRecipeViewModel.selectRecipe(recipe)
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, DishFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
+        recyclerView.adapter = recipeAdapter
 
-        // Odczytaj zapisane preferencje dietetyczne
-        val selectedDiets = loadSelectedDiets()
-        val llDietsList = view.findViewById<LinearLayout>(R.id.ll_diets_list)
-        llDietsList.removeAllViews()
-        for (diet in selectedDiets) {
-            val textView = TextView(requireContext()).apply {
-                text = diet
-                textSize = 16f
-                setPadding(0, 8, 0, 8)
-            }
-            llDietsList.addView(textView)
-        }
+        // Inicjalizacja menedżera ulubionych
+        favoritesManager = FavoritesManager(requireContext())
+
+        // Załaduj dane profilu
+        loadProfileData(view)
+        loadFavoriteRecipes()
 
         return view
+    }
+
+    private fun loadProfileData(view: View) {
+        val llAllergensList = view.findViewById<LinearLayout>(R.id.ll_allergens_list)
+        llAllergensList.removeAllViews()
+        loadSelectedAllergens().forEach { allergen ->
+            llAllergensList.addView(createProfileTextView(allergen))
+        }
+
+        val llDietsList = view.findViewById<LinearLayout>(R.id.ll_diets_list)
+        llDietsList.removeAllViews()
+        loadSelectedDiets().forEach { diet ->
+            llDietsList.addView(createProfileTextView(diet))
+        }
+    }
+
+    private fun createProfileTextView(text: String): TextView {
+        return TextView(requireContext()).apply {
+            this.text = text
+            textSize = 16f
+            setPadding(0, 8, 0, 8)
+        }
+    }
+
+    private fun loadFavoriteRecipes() {
+        lifecycleScope.launch {
+            try {
+                val favoriteIds = withContext(Dispatchers.IO) {
+                    favoritesManager.loadFavorites()
+                }
+
+                if (favoriteIds.isEmpty()) {
+                    showEmptyState()
+                    return@launch
+                }
+
+                showLoading()
+
+                val recipes = mutableListOf<Recipe>()
+                favoriteIds.forEach { recipeId ->
+                    try {
+                        val response = getRecipeDetails(recipeId)
+                        if (response.isSuccessful) {
+                            response.body()?.let { details ->
+                                recipes.add(mapToRecipe(details))
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e("ProfileFragment", "Błąd przy przepisie $recipeId: ${e.message}")
+                    }
+                }
+
+                withContext(Dispatchers.Main) {
+                    if (recipes.isNotEmpty()) {
+                        showRecipes(recipes)
+                    } else {
+                        showError()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("ProfileFragment", "Ogólny błąd: ${e.message}")
+                showError()
+            }
+        }
+    }
+
+    private suspend fun getRecipeDetails(recipeId: Int): Response<RecipeDetails> {
+        return withContext(Dispatchers.IO) {
+            RetrofitInstance.api.getRecipeDetails(
+                recipeId,
+                true,
+                apiKey
+            ).execute()
+        }
+    }
+
+    private fun mapToRecipe(details: RecipeDetails): Recipe {
+        return Recipe(
+            id = details.id,
+            title = details.title,
+            image = details.image,
+            readyInMinutes = details.readyInMinutes,
+            pricePerServing = details.pricePerServing,
+            nutrition = details.nutrition,
+            sourceName = details.sourceName ?: "",
+            summary = details.summary ?: "",
+            diets = details.diets ?: emptyList(),
+            extendedIngredients = details.extendedIngredients
+        )
+    }
+
+    private fun showRecipes(recipes: List<Recipe>) {
+        recyclerView.visibility = View.VISIBLE
+        recipeAdapter.updateRecipes(recipes)
+    }
+
+    private fun showLoading() {
+        // Implementacja ładowania
+    }
+
+    private fun showError() {
+        // Implementacja błędu
+    }
+
+    private fun showEmptyState() {
+        // Implementacja pustego stanu
     }
 
     private fun loadSelectedAllergens(): Set<String> {
         val file = File(requireContext().filesDir, "allergens.json")
         return if (file.exists()) {
-            val json = file.readText()
-            val gson = Gson()
-            gson.fromJson(json, Set::class.java) as Set<String>
-        } else {
-            emptySet()
-        }
+            Gson().fromJson(file.readText(), Set::class.java) as Set<String>
+        } else emptySet()
     }
 
     private fun loadSelectedDiets(): Set<String> {
         val file = File(requireContext().filesDir, "diets.json")
         return if (file.exists()) {
-            val json = file.readText()
-            val gson = Gson()
-            gson.fromJson(json, Set::class.java) as Set<String>
-        } else {
-            emptySet()
+            Gson().fromJson(file.readText(), Set::class.java) as Set<String>
+        } else emptySet()
+    }
+
+    private inner class FavoritesManager(context: Context) {
+        private val fileName = "favorites.json"
+        private val gson = Gson()
+        private val context = context.applicationContext
+
+        fun loadFavorites(): List<Int> {
+            return try {
+                val inputStream = context.openFileInput(fileName)
+                val jsonString = inputStream.bufferedReader().use { it.readText() }
+                gson.fromJson(jsonString, Array<Int>::class.java)?.toList() ?: emptyList()
+            } catch (e: Exception) {
+                emptyList()
+            }
         }
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun newInstance() = ProfileFragment()
     }
 }

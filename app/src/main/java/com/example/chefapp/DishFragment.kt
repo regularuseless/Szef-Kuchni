@@ -1,46 +1,93 @@
 package com.example.chefapp
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
+import android.os.Environment
 import android.text.Html
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import org.w3c.dom.Text
+import java.io.File
+import java.io.FileOutputStream
 
 class DishFragment : Fragment() {
+
     private val detailedRecipeViewModel: DetailedRecipeViewModel by activityViewModels()
     private val cartViewModel: CartViewModel by activityViewModels()
     private var recipe: Recipe? = null
+    private lateinit var favoritesManager: FavoritesManager
+    private lateinit var favButton: Button
+    private lateinit var delButton: Button
+    private lateinit var printButton: Button
+
+    private inner class FavoritesManager(context: Context) {
+        private val fileName = "favorites.json"
+        private val gson = Gson()
+        private val context: Context = context.applicationContext
+
+        fun addFavorite(recipeId: Int) {
+            val current = loadFavorites().toMutableList()
+            if (!current.contains(recipeId)) {
+                current.add(recipeId)
+                saveFavorites(current)
+            }
+        }
+
+        fun removeFavorite(recipeId: Int) {
+            val current = loadFavorites().toMutableList()
+            if (current.remove(recipeId)) {
+                saveFavorites(current)
+            }
+        }
+
+        private fun saveFavorites(recipeIds: List<Int>) {
+            try {
+                val jsonString = gson.toJson(recipeIds)
+                context.openFileOutput(fileName, Context.MODE_PRIVATE).use {
+                    it.write(jsonString.toByteArray())
+                }
+            } catch (e: Exception) {
+                Log.e("FavoritesManager", "Błąd zapisu: ${e.message}")
+            }
+        }
+
+        fun loadFavorites(): List<Int> {
+            return try {
+                val inputStream = context.openFileInput(fileName)
+                val jsonString = inputStream.bufferedReader().use { it.readText() }
+                gson.fromJson(jsonString, Array<Int>::class.java)?.toList() ?: emptyList()
+            } catch (e: Exception) {
+                Log.e("FavoritesManager", "Błąd odczytu: ${e.message}")
+                emptyList()
+            }
+        }
+
+        fun isFavorite(recipeId: Int): Boolean {
+            return loadFavorites().contains(recipeId)
+        }
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_dish, container, false)
+        favoritesManager = FavoritesManager(requireContext())
+
         val dishImageView: ImageView = view.findViewById(R.id.iv_dish_image)
         val dishNameTextView: TextView = view.findViewById(R.id.tv_dish_name)
         val startCookingButton: Button = view.findViewById(R.id.btn_start_cooking)
@@ -49,95 +96,269 @@ class DishFragment : Fragment() {
         val dishCaloriesTextView: TextView = view.findViewById(R.id.tv_dish_calories)
         val dishDescriptionTextView: TextView = view.findViewById(R.id.tv_dish_description)
         val dishDietTextView: TextView = view.findViewById(R.id.tv_diet_type)
-
         val btnAddAllIngredients: Button = view.findViewById(R.id.btn_add_to_cart)
-
-        //val dishAllergensListView: ListView
         val ingredientsListView: ListView = view.findViewById(R.id.lv_ingredients)
-        // Observe ViewModel correctly in onCreateView
+        favButton = view.findViewById(R.id.fav)
+        delButton = view.findViewById(R.id.del)
+        printButton = view.findViewById(R.id.print)
+
+        printButton.setOnClickListener {
+            recipe?.let { generatePdf(it) } ?: showError("Brak danych przepisu")
+        }
+
+        favButton.setOnClickListener {
+            recipe?.id?.let { recipeId ->
+                favoritesManager.addFavorite(recipeId)
+                showToast("Dodano do ulubionych!")
+                updateFavoriteButtons()
+            } ?: showError("Brak ID przepisu")
+        }
+
+        delButton.setOnClickListener {
+            recipe?.id?.let { recipeId ->
+                favoritesManager.removeFavorite(recipeId)
+                showToast("Usunięto z ulubionych!")
+                updateFavoriteButtons()
+            } ?: showError("Brak ID przepisu")
+        }
+
         detailedRecipeViewModel.selectedRecipe.observe(viewLifecycleOwner) { selectedRecipe ->
             recipe = selectedRecipe
-            Log.d("IngredientAdapter","Recipe ingredients: ${recipe?.extendedIngredients}")
-            dishNameTextView.text = recipe?.title
+            updateUI(
+                dishImageView,
+                dishNameTextView,
+                dishCostTextView,
+                dishDifficultyTextView,
+                dishCaloriesTextView,
+                dishDescriptionTextView,
+                dishDietTextView,
+                ingredientsListView
+            )
+            updateFavoriteButtons()
+        }
 
-            dishCostTextView.text = "${recipe?.pricePerServing.toString()} cents per serving"
-
-            var diets = recipe?.diets?.joinToString(", ")?.lowercase()
-            dishDietTextView.text = diets
-
-            val calories = recipe?.nutrition?.nutrients?.getOrNull(0)?.amount
-            dishCaloriesTextView.text = "${calories.toString()} calories"
-
-            var summary = recipe?.summary.toString()
-            dishDescriptionTextView.text = removeHtmlTags(summary)
-            dishDifficultyTextView.text = "${recipe?.readyInMinutes.toString()} minutes"
-
-            var ingredients = recipe?.extendedIngredients ?: emptyList()
-            val extendedIngredientAdapter = ExtendedIngredientAdapter(requireContext(), ingredients)
-            ingredientsListView.adapter = extendedIngredientAdapter
-
-            // Load image safely
-            recipe?.image?.let {
-                Glide.with(this)
-                    .load(it)
-                    .placeholder(R.drawable.placeholder_image)
-                    .into(dishImageView)
-            }
-            btnAddAllIngredients.setOnClickListener{
-                addAllIngredients(ingredients)
+        btnAddAllIngredients.setOnClickListener {
+            recipe?.extendedIngredients?.let { ingredients ->
+                cartViewModel.addIngredients(ingredients)
+                showToast("Dodano składniki do koszyka")
             }
         }
 
-
-        // Handle button click
-        startCookingButton.setOnClickListener{
+        startCookingButton.setOnClickListener {
             openCookingInstructionFragment()
         }
 
-
         return view
     }
-    private fun addAllIngredients(ingredients: List<Ingredient>)
-    {
-        cartViewModel.addIngredients(ingredients)
+
+    private fun generatePdf(recipe: Recipe) {
+        RetrofitInstance.api.getRecipeDetails(
+            recipe.id,
+            true,
+            "bb03710b9c6f4b4e92bb7f7492777879"
+        ).enqueue(object : Callback<RecipeDetails> {
+            override fun onResponse(
+                call: Call<RecipeDetails>,
+                response: Response<RecipeDetails>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { details ->
+                        createPdfDocument(details)
+                    }
+                } else {
+                    showError("Błąd pobierania instrukcji")
+                }
+            }
+
+            override fun onFailure(call: Call<RecipeDetails>, t: Throwable) {
+                showError("Błąd sieci: ${t.message}")
+            }
+        })
     }
 
+    private fun createPdfDocument(recipeDetails: RecipeDetails) {
+        try {
+            val document = PdfDocument()
+            var currentPageNumber = 1
+            var page: PdfDocument.Page? = null
+            var canvas: Canvas? = null
+            var yPos = 80f
+            val margin = 50f
+            val pageWidth = 595f
+            val pageHeight = 842f
+            val textPaint = Paint().apply {
+                color = Color.BLACK
+                textSize = 12f
+            }
+            val lineHeight = textPaint.fontSpacing
+            var isFirstPage = true
+            var globalStepNumber = 1
+
+            fun startNewPage() {
+                page?.let { document.finishPage(it) }
+                val pageInfo = PdfDocument.PageInfo.Builder(pageWidth.toInt(), pageHeight.toInt(), currentPageNumber).create()
+                page = document.startPage(pageInfo)
+                canvas = page?.canvas
+                yPos = if (isFirstPage) 80f else margin
+                isFirstPage = false
+                currentPageNumber++
+            }
+
+            startNewPage()
+
+            // Tytuł
+            canvas?.drawText(
+                recipeDetails.title,
+                margin,
+                yPos,
+                Paint().apply {
+                    color = Color.DKGRAY
+                    textSize = 20f
+                    isFakeBoldText = true
+                }
+            )
+            yPos += 40f
+
+            // Składniki
+            if (yPos + lineHeight > pageHeight - margin) startNewPage()
+            canvas?.drawText("Składniki:", margin, yPos, textPaint)
+            yPos += 30f
+
+            recipeDetails.extendedIngredients.forEach { ingredient ->
+                val text = "- ${ingredient.name} (${ingredient.amount} ${ingredient.unit})"
+                if (yPos + lineHeight > pageHeight - margin) startNewPage()
+                canvas?.drawText(text, margin, yPos, textPaint)
+                yPos += lineHeight
+            }
+
+            // Instrukcje
+            yPos += 30f
+            if (yPos + lineHeight > pageHeight - margin) startNewPage()
+            canvas?.drawText("Instrukcje:", margin, yPos, textPaint)
+            yPos += 30f
+
+            recipeDetails.analyzedInstructions.flatMap { it.steps }.forEach { step ->
+                val stepText = "Krok $globalStepNumber: ${step.step}"
+                val lines = splitTextIntoLines(stepText, textPaint, pageWidth - 2 * margin)
+
+                lines.forEach { line ->
+                    if (yPos + lineHeight > pageHeight - margin) startNewPage()
+                    canvas?.drawText(line, margin, yPos, textPaint)
+                    yPos += lineHeight
+                }
+                yPos += 10f
+                globalStepNumber++
+            }
+
+            document.finishPage(page!!)
+
+            val docsDir = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+                "ChefApp"
+            )
+            docsDir.mkdirs()
+            val pdfFile = File(docsDir, "${recipeDetails.title.sanitizeFileName()}.pdf")
+            document.writeTo(FileOutputStream(pdfFile))
+            document.close()
+
+            showToast("PDF zapisano w: ${pdfFile.absolutePath}")
+        } catch (e: Exception) {
+            showError("Błąd generowania PDF: ${e.message}")
+        }
+    }
+
+    private fun splitTextIntoLines(text: String, paint: Paint, maxWidth: Float): List<String> {
+        val lines = mutableListOf<String>()
+        var currentLine = ""
+
+        text.split(" ").forEach { word ->
+            val testLine = if (currentLine.isEmpty()) word else "$currentLine $word"
+            if (paint.measureText(testLine) <= maxWidth) {
+                currentLine = testLine
+            } else {
+                lines.add(currentLine)
+                currentLine = word
+            }
+        }
+        lines.add(currentLine)
+        return lines
+    }
+
+    private fun String.sanitizeFileName(): String {
+        return this.replace("[^a-zA-Z0-9_\\-]".toRegex(), "_")
+    }
+
+    private fun updateUI(
+        dishImageView: ImageView,
+        dishNameTextView: TextView,
+        dishCostTextView: TextView,
+        dishDifficultyTextView: TextView,
+        dishCaloriesTextView: TextView,
+        dishDescriptionTextView: TextView,
+        dishDietTextView: TextView,
+        ingredientsListView: ListView
+    ) {
+        recipe?.let {
+            dishNameTextView.text = it.title
+            dishCostTextView.text = "${it.pricePerServing} ¢/porcję"
+            dishDifficultyTextView.text = "${it.readyInMinutes} minut"
+            dishCaloriesTextView.text = "${it.nutrition.nutrients.firstOrNull()?.amount} kcal"
+            dishDescriptionTextView.text = removeHtmlTags(it.summary)
+            dishDietTextView.text = it.diets.joinToString(", ").lowercase()
+
+            ingredientsListView.adapter = ExtendedIngredientAdapter(requireContext(), it.extendedIngredients)
+
+            Glide.with(this)
+                .load(it.image)
+                .placeholder(R.drawable.placeholder_image)
+                .into(dishImageView)
+        }
+    }
+
+    private fun updateFavoriteButtons() {
+        recipe?.id?.let { recipeId ->
+            favButton.visibility = if (favoritesManager.isFavorite(recipeId)) View.GONE else View.VISIBLE
+            delButton.visibility = if (favoritesManager.isFavorite(recipeId)) View.VISIBLE else View.GONE
+        }
+    }
 
     private fun openCookingInstructionFragment() {
-        val recipeId = recipe?.id ?: run {
-            Toast.makeText(context, "Błąd: brak ID przepisu", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val fragment = CookingInstructionFragment.newInstance(recipeId)
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, fragment)
-            .addToBackStack(null)
-            .commit()
+        recipe?.id?.let { recipeId ->
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, CookingInstructionFragment.newInstance(recipeId))
+                .addToBackStack(null)
+                .commit()
+        } ?: showError("Brak ID przepisu")
     }
-}
-    fun removeHtmlTags(input: String): String {
+
+    private fun removeHtmlTags(input: String): String {
         return Html.fromHtml(input, Html.FROM_HTML_MODE_LEGACY).toString()
     }
 
-class ExtendedIngredientAdapter(
-    context: Context,
-    private var ingredients: List<Ingredient>
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
 
-) : ArrayAdapter<Ingredient>(context, 0, ingredients) {
+    private fun showError(message: String) {
+        Toast.makeText(context, "Błąd: $message", Toast.LENGTH_LONG).show()
+    }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        Log.d("IngredientAdapter", "populating at ${position}")
-        val ingredient = getItem(position)
-        Log.d("IngredientAdapter", "Ingredient at position $position: $ingredient")
-        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.extended_item_ingredient, parent, false)
-        Log.d("IngredientAdapter", "Ingredient at position $position: $ingredient")
-        val nameTextView: TextView = view.findViewById(R.id.tv_ingredient_name)
-        val amountTextView: TextView = view.findViewById(R.id.tv_ingredient_amount)
-        Log.d("IngredientAdapter", "Ingredient at position $position: $ingredient")
-        nameTextView.text = ingredient?.name
-        amountTextView.text = "${ingredient?.amount} ${ingredient?.unit}"
-        Log.d("IngredientAdapter", "Ingredient at position $position: $ingredient")
-        return view
+    private class ExtendedIngredientAdapter(
+        context: Context,
+        private var ingredients: List<Ingredient>
+    ) : ArrayAdapter<Ingredient>(context, 0, ingredients) {
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val view = convertView ?: LayoutInflater.from(context)
+                .inflate(R.layout.extended_item_ingredient, parent, false)
+
+            getItem(position)?.let { ingredient ->
+                view.findViewById<TextView>(R.id.tv_ingredient_name).text = ingredient.name
+                view.findViewById<TextView>(R.id.tv_ingredient_amount).text =
+                    "${ingredient.amount} ${ingredient.unit}"
+            }
+
+            return view
+        }
     }
 }

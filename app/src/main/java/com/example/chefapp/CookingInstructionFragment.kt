@@ -54,7 +54,7 @@ class CookingInstructionFragment : Fragment() {
 
         RetrofitInstance.api.getAnalyzedInstructions(
             recipeId,
-            "d8414b8d4175455e962a8b165b1c7d00"
+            "bb03710b9c6f4b4e92bb7f7492777879"
         ).enqueue(object : Callback<List<AnalyzedInstruction>> {
             override fun onResponse(
                 call: Call<List<AnalyzedInstruction>>,

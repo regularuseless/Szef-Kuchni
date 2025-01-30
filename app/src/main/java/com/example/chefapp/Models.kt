@@ -37,16 +37,14 @@ data class RecipeDetails(
     val instructions: String?,
     val extendedIngredients: List<Ingredient>,
     val nutrition: Nutrition,
+    val summary: String,
+    val diets: List<String>,
+    val sourceName: String,
     val pricePerServing: Double,
     val readyInMinutes: Int,
     val analyzedInstructions: List<AnalyzedInstruction>,
-    val glutenFree: Boolean,   // Dodane pole
-    val vegan: Boolean,       // Dodane pole
-    val vegetarian: Boolean,  // Dodane pole
-    val dairyFree: Boolean,   // Dodane pole
-    val veryHealthy: Boolean, // Dodane pole
-    val cheap: Boolean        // Dodane pole
-)
+
+    )
 
 data class Ingredient(
     val id: Int,
