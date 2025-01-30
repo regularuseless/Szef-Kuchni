@@ -7,14 +7,15 @@ android {
     namespace = "com.example.chefapp"
     compileSdk = 35
 
+
+
     defaultConfig {
-        vectorDrawables.useSupportLibrary=true
+        vectorDrawables.useSupportLibrary = true
         applicationId = "com.example.chefapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -27,44 +28,52 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
 }
 
 dependencies {
+    implementation(libs.androidx.espresso.contrib)
+    androidTestImplementation(libs.testng)
+    androidTestImplementation(libs.androidx.core.testing)
+    // Version Catalog references
     val fragment_version = "1.6.1"
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation("androidx.fragment:fragment:$fragment_version")
-    implementation(libs.material)
+
+    // Fragment
+    implementation("androidx.fragment:fragment-ktx:$fragment_version")
+
+    // Retrofit & OkHttp
     implementation(libs.retrofit)
-    implementation(libs.okhttp)
-    implementation(libs.gson)
     implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor.v492)
-    implementation (libs.retrofit)
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation (libs.okhttp.v4110)
-    implementation (libs.okhttp3.logging.interceptor)
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
-    implementation (libs.androidx.activity.ktx)
-    implementation("androidx.activity:activity-ktx:1.10.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("androidx.fragment:fragment-ktx:1.6.1")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
-    implementation ("com.google.code.gson:gson:2.8.9")
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    // Lifecycle & Coroutines
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.activity.ktx)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+
+    testImplementation ("junit:junit:4.13.2")
+    testImplementation ("io.mockk:mockk:1.13.2")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation ("androidx.fragment:fragment-testing:1.5.5") // Upewnij się, że masz tę zależność
+    testImplementation ("androidx.test.ext:junit:1.1.5")
+    testImplementation ("androidx.test.espresso:espresso-core:3.5.1")
 }

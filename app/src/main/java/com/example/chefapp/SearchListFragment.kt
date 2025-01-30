@@ -46,7 +46,7 @@ class SearchListFragment : Fragment() {
         return view
     }
 
-    private fun openDishFragment(recipe: Recipe) {
+    fun openDishFragment(recipe: Recipe) {
         detailedRecipeViewModel.selectRecipe(recipe)
         val fragment = DishFragment()
 
@@ -57,32 +57,62 @@ class SearchListFragment : Fragment() {
     }
 
     fun searchRecipesByText(query: String, intolerances: String? = null, sort: String? = null) {
-        RetrofitInstance.api.searchRecipesByText(query, intolerances, sort, apiKey = apiKey).enqueue(object : Callback<RecipeSearchResponse> {
-            override fun onResponse(call: Call<RecipeSearchResponse>, response: Response<RecipeSearchResponse>) {
-                if (response.isSuccessful) {
-                    val recipes = response.body()?.results ?: emptyList()  // Pobierz przepisy
-                    recipesList.clear()
-                    recipesList.addAll(recipes)
-                    Log.d("Tlumacz","${recipesList[0].extendedIngredients[0].name}")
-                    /*runBlocking {
-                        for (index in recipesList.indices) {
-                            recipesList[index].title =
-                                translate(recipesList[index].title, "en", "pl")
-                            Log.d("Tlumaczenie", recipesList[index].extendedIngredients[0].name)
+        RetrofitInstance.api.searchRecipesByText(query, intolerances, sort, apiKey = apiKey)
+            .enqueue(object : Callback<RecipeSearchResponse> {
+                override fun onResponse(
+                    call: Call<RecipeSearchResponse>,
+                    response: Response<RecipeSearchResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val recipes = response.body()?.results ?: emptyList()
+                        recipesList.clear()
+                        recipesList.addAll(recipes)
+                        /*runBlocking {
+                            for(index in recipesList.indices){
+                                recipesList[index].title =
+                                    translate(recipesList[index].title, "en", "pl")
+                                Log.d("Tlumaczenie", recipesList[index].extendedIngredients[0].name)
+                            }
+                        }*/
+                        recipeAdapter.notifyDataSetChanged()
+                    } else {
+                        // Obsługa różnych kodów błędów
+                        val errorMessage = when (response.code()) {
+                            402 -> "Koniec tokenów API - skontaktuj się z administratorem"
+                            401 -> "Błędna autentykacja"
+                            429 -> "Zbyt wiele zapytań - spróbuj później"
+                            else -> "Błąd API: ${response.message()}"
                         }
-                    }*/
-                    recipeAdapter.notifyDataSetChanged()
-                    Log.d("SearchRecipes","cokolwiek: ${recipesList.size}")
-                } else {
-                    Log.e("API", "Błąd odpowiedzi: ${response.message()}")  // Logowanie błędu odpowiedzi
+
+                        Toast.makeText(
+                            requireContext(),
+                            errorMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        Log.e(
+                            "API",
+                            "Błąd odpowiedzi: ${response.code()} - ${response.message()}"
+                        )
+                    }
                 }
-            }
-            override fun onFailure(call: Call<RecipeSearchResponse>, t: Throwable) {
-                Log.e("API", "Wykonanie zapytania zakończone niepowodzeniem: ${t.message}")
-            }
-        })
+
+                override fun onFailure(call: Call<RecipeSearchResponse>, t: Throwable) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Błąd sieci: ${t.message ?: "Nieznany błąd"}",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    Log.e(
+                        "API",
+                        "Wykonanie zapytania zakończone niepowodzeniem: ${t.message}",
+                        t
+                    )
+                }
+            })
     }
-    private fun performSearch(params:SearchParameters)
+    fun performSearch(params:SearchParameters)
     {
         var name=params.dishName
 
@@ -99,10 +129,10 @@ class SearchListFragment : Fragment() {
         searchRecipesByText(name, params.filters.joinToString(",").lowercase())
         Log.d("SearchRecipes","cokolwiek: ${recipesList.size}")
         //await lub coś lepszego
-        searchRecipesByText(params.dishName, params.filters.joinToString(",").lowercase())
+        searchRecipesByText(params.dishName, params.filters.joinToString(",").lowercase(), params.sortOptions.joinToString())
 
     }
 
-    val apiKey = "62e1c1ff5c7c461180d269fd0eb2dff2"
+    val apiKey = "f73a588638a84caa8f80146a4d764e0b"
     var recipesList = mutableListOf<Recipe>()
 }

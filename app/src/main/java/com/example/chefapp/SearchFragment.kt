@@ -1,6 +1,7 @@
 package com.example.chefapp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,6 +75,8 @@ class SearchFragment : Fragment() {
                     selectedSortOptions.add(radioButton.text.toString())
                 }
             }
+
+            Log.d("Szukaj","sort:${selectedSortOptions}")
 
             // Trigger the search action
             //performTestSearch(dishName, selectedFilters, selectedSortOptions)

@@ -215,7 +215,7 @@ class DishFragment : Fragment() {
         RetrofitInstance.api.getRecipeDetails(
             recipe.id,
             true,
-            "bb03710b9c6f4b4e92bb7f7492777879"
+            "f73a588638a84caa8f80146a4d764e0b"
         ).enqueue(object : Callback<RecipeDetails> {
             override fun onResponse(
                 call: Call<RecipeDetails>,
