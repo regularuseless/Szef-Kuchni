@@ -144,7 +144,8 @@ class ProfileFragment : Fragment() {
             sourceName = details.sourceName ?: "",
             summary = details.summary ?: "",
             diets = details.diets ?: emptyList(),
-            extendedIngredients = details.extendedIngredients
+            extendedIngredients = details.extendedIngredients,
+            analyzedInstructions = details.analyzedInstructions
         )
     }
 

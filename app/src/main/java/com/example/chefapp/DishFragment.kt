@@ -383,14 +383,13 @@ class DishFragment : Fragment() {
     }
 
     private fun openCookingInstructionFragment() {
-        recipe?.id?.let { recipeId ->
+        recipe?.let {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, CookingInstructionFragment.newInstance(recipeId))
+                .replace(R.id.frame_layout, CookingInstructionFragment.newInstance(it))
                 .addToBackStack(null)
                 .commit()
-        } ?: showError("Brak ID przepisu")
+        } ?: showError("Brak przepisu")
     }
-
     private fun removeHtmlTags(input: String): String {
         return Html.fromHtml(input, Html.FROM_HTML_MODE_LEGACY).toString()
     }

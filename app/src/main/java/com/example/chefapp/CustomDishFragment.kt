@@ -1,6 +1,5 @@
 package com.example.chefapp
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,7 +23,6 @@ class CustomDishFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_custom_dish, container, false)
 
         val etDishName: EditText = view.findViewById(R.id.et_dish_name)
@@ -38,10 +36,11 @@ class CustomDishFragment : Fragment() {
         val etIngredientUnit: EditText = view.findViewById(R.id.et_ingredient_units)
         val btnAddIngredient: Button = view.findViewById(R.id.btn_add_ingredient)
         val btnSaveRecipe: Button = view.findViewById(R.id.btn_save_recipe)
+        val etInstructions: EditText = view.findViewById(R.id.et_instructions)
 
         val rvIngredients: RecyclerView = view.findViewById(R.id.rv_ingredients)
 
-        recipeList = mutableListOf()  // List of all recipes
+        recipeList = mutableListOf()
         customIngredientsAdapter = CustomIngredientsAdapter(ingredientList)
 
         rvIngredients.layoutManager = LinearLayoutManager(context)
@@ -51,7 +50,7 @@ class CustomDishFragment : Fragment() {
             val ingredientName = etIngredientName.text.toString().trim()
             val ingredientAmount = etIngredientAmount.text.toString().trim().toDoubleOrNull()
             val ingredientUnit = etIngredientUnit.text.toString().trim()
-            //Log.d("custom","values: ${ingredientAmount}, ${ingredientName},${ingredientUnit}")
+
             if (ingredientName.isEmpty() || ingredientAmount == null || ingredientUnit.isEmpty()) {
                 Toast.makeText(requireContext(), "Please fill all ingredient fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -65,10 +64,8 @@ class CustomDishFragment : Fragment() {
             )
 
             ingredientList.add(newIngredient)
-            Log.d("CustomDishFragment", "Ingredient added. List size: ${ingredientList.size}")
             customIngredientsAdapter.notifyDataSetChanged()
 
-            // Clear the input fields
             etIngredientName.text.clear()
             etIngredientAmount.text.clear()
             etIngredientUnit.text.clear()
@@ -81,64 +78,55 @@ class CustomDishFragment : Fragment() {
             val dishCalories = etDishCalories.text.toString().trim().toDoubleOrNull()
             val dishDescription = etDishDescription.text.toString().trim()
             val dietType = etDietType.text.toString().trim()
+            val instructionsText = etInstructions.text.toString().trim()
 
             if (dishName.isEmpty() || dishCost == null || dishDifficulty == null || dishCalories == null || dishDescription.isEmpty()) {
                 Toast.makeText(requireContext(), "Please fill in all the recipe fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            // Create a list of nutrients
-            val nutrientsList = listOf(
-                Nutrients(
-                    name = "Calories",
-                    amount = dishCalories!!, // The user input value for calories
-                    unit = "kcal", // You can adjust the unit as per your need
-                    percentOfDailyNeeds = 0.0 // Adjust as needed
-                ),
-                Nutrients(
-                    name = "Protein",
-                    amount = 5.0, // Example value for protein
-                    unit = "g",
-                    percentOfDailyNeeds = 0.0 // Adjust as needed
-                ),
-                Nutrients(
-                    name = "Fat",
-                    amount = 2.0, // Example value for fat
-                    unit = "g",
-                    percentOfDailyNeeds = 0.0 // Adjust as needed
-                ),
-                Nutrients(
-                    name = "Carbohydrates",
-                    amount = 10.0, // Example value for carbs
-                    unit = "g",
-                    percentOfDailyNeeds = 0.0 // Adjust as needed
+
+            // Tworzenie kroków z instrukcji
+            val steps = instructionsText.split("\n").mapIndexed { index, stepText ->
+                InstructionStep(
+                    number = index + 1,
+                    step = stepText,
+                    ingredients = emptyList(),
+                    equipment = emptyList(),
+                    length = null
+                )
+            }
+
+            val analyzedInstructions = listOf(
+                AnalyzedInstruction(
+                    name = "Custom Instructions",
+                    steps = steps
                 )
             )
-            Log.d("CustomDishFragment", "Creating Recipe, ingredient size: ${ingredientList.size}")
-            // Create Recipe object
+
+            // Tworzenie obiektu Recipe
             val recipe = Recipe(
                 id = recipeList.size + 1,
                 title = dishName,
                 image = "",
                 readyInMinutes = dishDifficulty!!,
                 pricePerServing = dishCost!!,
-                nutrition = Nutrition(nutrients = nutrientsList), // Example nutrition
-                sourceName = "Custom", // Hardcoded for now
+                nutrition = Nutrition(nutrients = listOf(Nutrients("Calories", dishCalories, "kcal", 0.0))),
+                sourceName = "Custom",
                 summary = dishDescription,
-                diets = listOf(dietType), // You can later modify this to allow multiple diets
-                extendedIngredients = ingredientList
+                diets = listOf(dietType),
+                extendedIngredients = ingredientList,
+                analyzedInstructions = analyzedInstructions // Dodane analyzedInstructions
             )
 
-            // Add the recipe to the recipe list
             recipeList.add(recipe)
-            Log.d("CustomDishFragment", "Saving Recipe, ingredient size: ${ingredientList.size}")
-            Toast.makeText(requireContext(), "Recipe saved successfully!", Toast.LENGTH_SHORT).show()
             recipeViewModel.addRecipe(recipe)
-            //clearFields()
+            Toast.makeText(requireContext(), "Recipe saved successfully!", Toast.LENGTH_SHORT).show()
             navigateToMainPage()
         }
 
         return view
     }
+
     private fun navigateToMainPage() {
         val mainActivity = activity as? MainActivity
         mainActivity?.switchToTab(2)
@@ -148,21 +136,4 @@ class CustomDishFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
-    private fun clearFields() {
-        // Clear all input fields
-        view?.findViewById<EditText>(R.id.et_dish_name)?.text?.clear()
-        view?.findViewById<EditText>(R.id.et_dish_cost)?.text?.clear()
-        view?.findViewById<EditText>(R.id.et_dish_difficulty)?.text?.clear()
-        view?.findViewById<EditText>(R.id.et_dish_calories)?.text?.clear()
-        view?.findViewById<EditText>(R.id.et_dish_description)?.text?.clear()
-        view?.findViewById<EditText>(R.id.et_diet_type)?.text?.clear()
-        view?.findViewById<EditText>(R.id.et_instructions)?.text?.clear()
-
-        // Clear the ingredients list
-        ingredientList.clear()
-        customIngredientsAdapter.notifyDataSetChanged()
-
-    }
-
 }
-

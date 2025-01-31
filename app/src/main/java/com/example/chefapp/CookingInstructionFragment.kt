@@ -14,18 +14,18 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CookingInstructionFragment : Fragment() {
-    private var recipeId: Int = -1
     private lateinit var instructionTextView: TextView
     private lateinit var nextButton: Button
     private lateinit var previousButton: Button
 
     private var steps: List<InstructionStep> = emptyList()
     private var currentStepIndex = 0
+    private var recipe: Recipe? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            recipeId = it.getInt(ARG_RECIPE_ID, -1)
+            recipe = it.getParcelable(ARG_RECIPE)
         }
     }
 
@@ -48,101 +48,43 @@ class CookingInstructionFragment : Fragment() {
     }
 
     private fun loadInstructions() {
-        if (recipeId == -1) {
-            showError("Nieprawidłowe ID przepisu")
-            return
-        }
-
-        RetrofitInstance.api.getAnalyzedInstructions(
-            recipeId,
-            "f73a588638a84caa8f80146a4d764e0b" // Uważaj na ekspozycję klucza w kodzie!
-        ).enqueue(object : Callback<List<AnalyzedInstruction>> {
-            override fun onResponse(
-                call: Call<List<AnalyzedInstruction>>,
-                response: Response<List<AnalyzedInstruction>>
-            ) {
-                if (response.isSuccessful) {
-                    handleSuccessfulResponse(response)
+        recipe?.let {
+            if (it.sourceName == "Custom") {
+                steps = it.analyzedInstructions.flatMap { instruction -> instruction.steps }
+                if (steps.isNotEmpty()) {
+                    currentStepIndex = 0
+                    updateStepText()
                 } else {
-                    handleErrorResponse(response, call)
+                    Log.d("Instrukcje","Brak dostępnych instrukcji")
                 }
+            } else {
+                RetrofitInstance.api.getAnalyzedInstructions(
+                    it.id,
+                    "f73a588638a84caa8f80146a4d764e0b"
+                ).enqueue(object : Callback<List<AnalyzedInstruction>> {
+                    override fun onResponse(
+                        call: Call<List<AnalyzedInstruction>>,
+                        response: Response<List<AnalyzedInstruction>>
+                    ) {
+                        if (response.isSuccessful) {
+                            steps = response.body()?.flatMap { it.steps } ?: emptyList()
+                            if (steps.isNotEmpty()) {
+                                currentStepIndex = 0
+                                updateStepText()
+                            } else {
+                                Log.d("Instrukcje","Brak dostępnych instrukcji")
+                            }
+                        } else {
+                            Log.d("Instrukcje","Błąd API: ${response.message()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<List<AnalyzedInstruction>>, t: Throwable) {
+                        Log.d("Instrukcje","Błąd sieci: ${t.message}")
+                    }
+                })
             }
-
-            override fun onFailure(call: Call<List<AnalyzedInstruction>>, t: Throwable) {
-                handleNetworkFailure(t, call)
-            }
-        })
-    }
-
-    private fun handleSuccessfulResponse(response: Response<List<AnalyzedInstruction>>) {
-        val instructions = response.body()
-        steps = instructions?.flatMap { it.steps } ?: emptyList()
-
-        if (steps.isNotEmpty()) {
-            currentStepIndex = 0
-            updateStepText()
-        } else {
-            showInformation("Brak dostępnych instrukcji")
-        }
-    }
-
-    private fun handleErrorResponse(
-        response: Response<List<AnalyzedInstruction>>,
-        call: Call<List<AnalyzedInstruction>>
-    ) {
-        val errorMessage = when (response.code()) {
-            402 -> "Koniec tokenów API - skontaktuj się z administratorem"
-            401 -> "Błędna autentykacja"
-            429 -> "Zbyt wiele zapytań - spróbuj później"
-            else -> "Błąd API: ${response.message()}"
-        }
-
-        showError(errorMessage)
-        Log.e(
-            "API",
-            "Błąd ${response.code()} dla URL: ${call.request().url}\nOdpowiedź: ${response.errorBody()?.string()}"
-        )
-        resetUI()
-    }
-
-    private fun handleNetworkFailure(t: Throwable, call: Call<List<AnalyzedInstruction>>) {
-        showError("Błąd sieci: ${t.message ?: "Nieznany błąd"}")
-        Log.e(
-            "API",
-            "Błąd sieciowy dla URL: ${call.request().url}\n${t.stackTraceToString()}"
-        )
-        resetUI()
-    }
-
-    private fun showError(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-        instructionTextView.text = message
-    }
-
-    private fun showInformation(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        instructionTextView.text = message
-    }
-
-    private fun resetUI() {
-        steps = emptyList()
-        updateStepText()
-    }
-
-    private fun updateStepText() {
-        instructionTextView.text = if (steps.isNotEmpty() && currentStepIndex in steps.indices) {
-            val step = steps[currentStepIndex]
-            "Krok ${step.number}: ${step.step}"
-        } else {
-            "Brak instrukcji do wyświetlenia"
-        }
-
-        updateButtonStates()
-    }
-
-    private fun updateButtonStates() {
-        previousButton.isEnabled = currentStepIndex > 0 && steps.isNotEmpty()
-        nextButton.isEnabled = currentStepIndex < steps.size - 1 && steps.isNotEmpty()
+        } ?: Log.d("Instrukcje","Brak przepisu")
     }
 
     private fun showNextStep() {
@@ -159,13 +101,28 @@ class CookingInstructionFragment : Fragment() {
         }
     }
 
-    companion object {
-        private const val ARG_RECIPE_ID = "recipe_id"
+    private fun updateStepText() {
+        instructionTextView.text = if (steps.isNotEmpty() && currentStepIndex in steps.indices) {
+            val step = steps[currentStepIndex]
+            "Krok ${step.number}: ${step.step}"
+        } else {
+            "Brak instrukcji do wyświetlenia"
+        }
+        updateButtonStates()
+    }
 
-        fun newInstance(recipeId: Int) =
+    private fun updateButtonStates() {
+        previousButton.isEnabled = currentStepIndex > 0 && steps.isNotEmpty()
+        nextButton.isEnabled = currentStepIndex < steps.size - 1 && steps.isNotEmpty()
+    }
+
+    companion object {
+        private const val ARG_RECIPE = "recipe"
+
+        fun newInstance(recipe: Recipe) =
             CookingInstructionFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_RECIPE_ID, recipeId)
+                    putParcelable(ARG_RECIPE, recipe)
                 }
             }
     }
